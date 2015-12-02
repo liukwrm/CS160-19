@@ -17,6 +17,7 @@ import com.google.android.gms.games.Games;
 import java.util.ArrayList;
 import java.util.List;
 
+import group19.cs160.scoreradar.Json.GameParser;
 import group19.cs160.scoreradar.Json.ScheduleParser;
 import group19.cs160.scoreradar.Pojo.Game;
 
@@ -66,7 +67,11 @@ public class MainActivity extends AppCompatActivity {
         int month = Integer.valueOf(((EditText) findViewById(R.id.month)).getText().toString());
         int day = Integer.valueOf(((EditText) findViewById(R.id.day)).getText().toString());
         getScheduledGames(year, month, day);
+    }
 
+    public void stats(View view){
+        String id = ((EditText) findViewById(R.id.gameid)).getText().toString();
+        getGameStats(id);
     }
 
     public void getScheduledGames(Integer year, Integer month, Integer day) {
@@ -74,5 +79,11 @@ public class MainActivity extends AppCompatActivity {
         String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
         ScheduleParser scheduleParser = new ScheduleParser(url);
         scheduleParser.getGames();
+    }
+
+    public void getGameStats(String id) {
+        String url = "http://api.sportradar.us/nba-t3/games/" + id + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        GameParser gameParser = new GameParser(url);
+        gameParser.getGame();
     }
 }

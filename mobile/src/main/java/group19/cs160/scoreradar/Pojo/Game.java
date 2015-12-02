@@ -12,12 +12,28 @@ public class Game implements Parcelable {
     private String home;
     private String away;
     private String time;
+    private int homeScore;
+    private int awayScore;
+    private String status;
+
+    public Game() {
+    }
 
     public Game(String id, String home, String away, String time) {
         this.id = id;
         this.home = home;
         this.away = away;
         this.time = time;
+    }
+
+    public Game(String id, String home, String away, String time, int homeScore, int awayScore, String status) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        this.time = time;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.status = status;
     }
 
     public String getId() {
@@ -52,11 +68,38 @@ public class Game implements Parcelable {
         this.time = time;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public int getAwayScore() {
+        return awayScore;
+    }
+
+    public void setAwayScore(int awayScore) {
+        this.awayScore = awayScore;
+    }
+
+    public int getHomeScore() {
+        return homeScore;
+    }
+
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
+    }
+
     protected Game(Parcel in) {
         id = in.readString();
         home = in.readString();
         away = in.readString();
         time = in.readString();
+        homeScore = in.readInt();
+        awayScore = in.readInt();
+        status = in.readString();
     }
 
     @Override
@@ -70,6 +113,9 @@ public class Game implements Parcelable {
         dest.writeString(home);
         dest.writeString(away);
         dest.writeString(time);
+        dest.writeInt(homeScore);
+        dest.writeInt(awayScore);
+        dest.writeString(status);
     }
 
     @SuppressWarnings("unused")

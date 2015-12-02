@@ -39,8 +39,8 @@ public class ScheduleParser {
                         JSONObject jsonObject = jsonArray.getJSONObject(i);
                         String id = jsonObject.getString("id");
                         String time = jsonObject.getString("scheduled");
-                        String home = jsonObject.getJSONObject("home").getString("alias");
-                        String away = jsonObject.getJSONObject("away").getString("alias");
+                        String home = jsonObject.getJSONObject("home").getString("name");
+                        String away = jsonObject.getJSONObject("away").getString("name");
                         games.add(new Game(id, home, away, time));
                     }
                 } catch (JSONException e){
