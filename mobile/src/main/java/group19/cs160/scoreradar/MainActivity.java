@@ -1,13 +1,24 @@
 package group19.cs160.scoreradar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.EditText;
+
+import com.google.android.gms.games.Games;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import group19.cs160.scoreradar.Json.ScheduleParser;
+import group19.cs160.scoreradar.Pojo.Game;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -48,5 +59,20 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void go(View view){
+        int year = Integer.valueOf(((EditText) findViewById(R.id.year)).getText().toString());
+        int month = Integer.valueOf(((EditText) findViewById(R.id.month)).getText().toString());
+        int day = Integer.valueOf(((EditText) findViewById(R.id.day)).getText().toString());
+        getScheduledGames(year, month, day);
+
+    }
+
+    public void getScheduledGames(Integer year, Integer month, Integer day) {
+        String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
+        String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        ScheduleParser scheduleParser = new ScheduleParser(url);
+        scheduleParser.getGames();
     }
 }
