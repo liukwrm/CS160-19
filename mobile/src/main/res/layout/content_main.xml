@@ -44,6 +44,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="Game ID"
+        android:text="72ff303d-8388-44e8-b5ab-b30a30233ab4"
         android:id="@+id/gameid"/>
 
     <Button android:layout_width="wrap_content"
