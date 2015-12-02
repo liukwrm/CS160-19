@@ -1,7 +1,9 @@
 package group19.cs160.scoreradar;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,11 +13,17 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.google.android.gms.games.Games;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import group19.cs160.scoreradar.Json.GameParser;
 import group19.cs160.scoreradar.Json.ScheduleParser;
@@ -72,6 +80,40 @@ public class MainActivity extends AppCompatActivity {
     public void stats(View view){
         String id = ((EditText) findViewById(R.id.gameid)).getText().toString();
         getGameStats(id);
+    }
+
+    public void save(View view){
+        String teams = ((EditText) findViewById(R.id.teams)).getText().toString();
+        String players = ((EditText) findViewById(R.id.players)).getText().toString();
+        ArrayList<String> teamsList = new ArrayList<String>();
+        teamsList.addAll(Arrays.asList(teams.split("\\s*,\\s*")));
+        ArrayList<String> playersList = new ArrayList<String>();
+        playersList.addAll(Arrays.asList(players.split("\\s*,\\s*")));
+        String teamjson = new Gson().toJson(teamsList);
+        String playerjson = new Gson().toJson(playersList);
+        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("teams", teamjson).apply();
+        editor.putString("players", playerjson).apply();
+        Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
+    }
+
+    public void teams(View view){
+        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
+        String teamsjson = sharedPreferences.getString("teams", null);
+        ArrayList<String> teamsList = new Gson().fromJson(teamsjson, ArrayList.class);
+        for (String team : teamsList) {
+            Log.d("teams", team);
+        }
+    }
+
+    public void players(View view){
+        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
+        String playersjson = sharedPreferences.getString("players", null);
+        ArrayList<String> playersList = new Gson().fromJson(playersjson, ArrayList.class);
+        for (String player : playersList) {
+            Log.d("players", player);
+        }
     }
 
     public void getScheduledGames(Integer year, Integer month, Integer day) {

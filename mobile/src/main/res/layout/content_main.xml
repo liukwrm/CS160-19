@@ -51,4 +51,37 @@
         android:layout_height="wrap_content"
         android:text="Get Game Stats"
         android:onClick="stats"/>
+
+    <EditText android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="Teams to Follow"
+        android:id="@+id/teams"/>
+
+
+    <EditText android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:hint="Players to Follow"
+        android:id="@+id/players"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Save Follows"
+        android:onClick="save"/>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fav Teams"
+            android:onClick="teams"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fav Players"
+            android:onClick="players"/>
+    </LinearLayout>
 </LinearLayout>
