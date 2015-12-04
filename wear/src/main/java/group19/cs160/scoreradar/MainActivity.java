@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.wearable.activity.WearableActivity;
 import android.support.wearable.view.BoxInsetLayout;
@@ -25,9 +26,11 @@ public class MainActivity extends WearableActivity {
         setContentView(R.layout.activity_main);
         setAmbientEnabled();
 
-        mContainerView = (BoxInsetLayout) findViewById(R.id.container);
-        mTextView = (TextView) findViewById(R.id.text);
-        mClockView = (TextView) findViewById(R.id.clock);
+    }
+
+    public void startGameDetail(View view) {
+        final Intent gamedetail = new Intent(this, GameDetailWear.class);
+        startActivity(gamedetail);
     }
 
     @Override
