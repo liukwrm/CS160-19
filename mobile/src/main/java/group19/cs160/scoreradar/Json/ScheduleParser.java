@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar.Json;
 
+import android.content.Intent;
 import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -12,6 +13,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 
 import cz.msebera.android.httpclient.Header;
+import group19.cs160.scoreradar.MainActivity;
 import group19.cs160.scoreradar.Pojo.Game;
 
 /**
