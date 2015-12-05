@@ -14,14 +14,14 @@ import java.util.ArrayList;
 /**
  * Created by liukwarm on 12/3/15.
  */
-public class GameTab extends Fragment {
+public class TeamTab extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<GameInformation> myDataset;
+    private ArrayList<TeamInformation> myDataset;
 
-    public GameTab() {
+    public TeamTab() {
         // Required empty public constructor
     }
 
@@ -58,7 +58,7 @@ public class GameTab extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameAdapter(myDataset);
+        mAdapter = new TeamAdapter(myDataset);
         mRecyclerView.setAdapter(mAdapter);
     }
 
