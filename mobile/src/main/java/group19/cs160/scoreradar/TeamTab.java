@@ -34,6 +34,11 @@ public class TeamTab extends Fragment {
     private void createDataset() {
         myDataset = new ArrayList<>();
         //Insert objects!
+        myDataset.add(new TeamInformation("Atlanta Hawks", "7-10", false));
+        myDataset.add(new TeamInformation("Atlanta Hawks", "7-10", false));
+        myDataset.add(new TeamInformation("Atlanta Hawks", "7-10", false));
+        myDataset.add(new TeamInformation("Atlanta Hawks", "7-10", false));
+        myDataset.add(new TeamInformation("Atlanta Hawks", "7-10", false));
     }
 
     @Override

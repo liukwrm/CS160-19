@@ -15,12 +15,12 @@ public class GameInformation {
 
     private static Map<String, Integer> logoMap = new HashMap<String, Integer>();
     static {
-        logoMap.put("", R.drawable.atlanta_hawks);
+        logoMap.put("Atlanta Hawks", R.drawable.atlanta_hawks);
         logoMap.put("", R.drawable.boston_celtics);
         logoMap.put("", R.drawable.brooklyn_nets);
         logoMap.put("", R.drawable.charlotte_hornets);
         logoMap.put("", R.drawable.chicago_bulls);
-        logoMap.put("", R.drawable.cleveland_cavaliers);
+        logoMap.put("Cleveland Cavaliers", R.drawable.cleveland_cavaliers);
         logoMap.put("", R.drawable.dallas_mavericks);
         logoMap.put("", R.drawable.denver_nuggets);
         logoMap.put("", R.drawable.detroit_pistons);

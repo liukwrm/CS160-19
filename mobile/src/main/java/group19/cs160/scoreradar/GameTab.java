@@ -33,12 +33,16 @@ public class GameTab extends Fragment {
 
     private void createDataset() {
         myDataset = new ArrayList<>();
-        //Insert objects!
+        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
+        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
+        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
+        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
+        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+                             Bundle savedInstanceState)  {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.game, container, false);
 

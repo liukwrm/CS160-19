@@ -61,8 +61,8 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         GameInformation game = mDataset.get(position);
-        holder.score1.setText(game.score1);
-        holder.score2.setText(game.score2);
+        holder.score1.setText(String.valueOf(game.score1));
+        holder.score2.setText(String.valueOf(game.score2));
         holder.team1.setImageResource(game.logo1);
         holder.team2.setImageResource(game.logo2);
         if (game.subscribed) {
