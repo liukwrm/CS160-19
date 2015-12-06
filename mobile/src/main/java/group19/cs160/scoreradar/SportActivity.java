@@ -2,6 +2,7 @@ package group19.cs160.scoreradar;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -86,8 +87,14 @@ public class SportActivity extends AppCompatActivity {
     }
 
     public void parseScheduledGames(ArrayList<Game> games) {
-        for (Game game : games) {
-            String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        for (Game g : games) {
+            try {
+                Thread.sleep(1500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+            String url = "http://api.sportradar.us/nba-t3/games/" + g.getId() + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
 
             Log.d("main", url);
 
@@ -116,7 +123,7 @@ public class SportActivity extends AppCompatActivity {
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
+                    Log.d("main", "GOT HERE" + statusCode);
                 }
             });
         }
