@@ -1,9 +1,12 @@
 package group19.cs160.scoreradar;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by liukwarm on 12/4/15.
  */
-public class TeamInformation {
+public class TeamInformation implements Parcelable {
 
     String name;
     int wins;
@@ -69,4 +72,41 @@ public class TeamInformation {
     public void setLogo(int logo) {
         this.logo = logo;
     }
+
+    protected TeamInformation(Parcel in) {
+        name = in.readString();
+        wins = in.readInt();
+        losses = in.readInt();
+        id = in.readString();
+        subscribed = in.readByte() != 0x00;
+        logo = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeInt(wins);
+        dest.writeInt(losses);
+        dest.writeString(id);
+        dest.writeByte((byte) (subscribed ? 0x01 : 0x00));
+        dest.writeInt(logo);
+    }
+
+    @SuppressWarnings("unused")
+    public static final Parcelable.Creator<TeamInformation> CREATOR = new Parcelable.Creator<TeamInformation>() {
+        @Override
+        public TeamInformation createFromParcel(Parcel in) {
+            return new TeamInformation(in);
+        }
+
+        @Override
+        public TeamInformation[] newArray(int size) {
+            return new TeamInformation[size];
+        }
+    };
 }

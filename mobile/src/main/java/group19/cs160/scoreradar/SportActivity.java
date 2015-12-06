@@ -29,10 +29,10 @@ public class SportActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
-    final ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
+    ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
     ArrayList<Game> listOfGames = new ArrayList<Game>();
-    boolean getTeamsListDone = false;
-    boolean getGamesListDone = false;
+//    boolean getTeamsListDone = false;
+//    boolean getGamesListDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +51,20 @@ public class SportActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(viewPager);
 
         Intent intent = getIntent();
-        ArrayList<Game> games = intent.getParcelableArrayListExtra("games");
-        getTeamsList();
-        parseScheduledGames(games);
+        listOfTeams = intent.getParcelableArrayListExtra("teams");
+        for (TeamInformation team : listOfTeams) {
+            Log.d("HIGUYS", team.getName());
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent)
+    {
+        super.onNewIntent(intent);
+        listOfGames = intent.getParcelableArrayListExtra("games");
+        for (Game game : listOfGames) {
+            Log.d("HIGUYS2", game.getHome());
+        }
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -90,97 +101,5 @@ public class SportActivity extends AppCompatActivity {
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
-    }
-
-    public void parseScheduledGames(final ArrayList<Game> games) {
-        listOfGames = new ArrayList<Game>();
-        for (Game g : games) {
-            try {
-                if (games.indexOf(g) == 0) {
-                    Thread.sleep(3000);
-                } else {
-                    Thread.sleep(1500);
-                }
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-
-            String url = "http://api.sportradar.us/nba-t3/games/" + g.getId() + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
-
-            Log.d("main", url);
-
-            AsyncHttpClient client = new AsyncHttpClient();
-            client.get(url, new AsyncHttpResponseHandler() {
-                @Override
-                public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    Game game = new Game();
-                    try {
-                        JSONObject jsonObject = new JSONObject(new String(responseBody));
-                        String status = jsonObject.getString("status");
-                        String time = jsonObject.getString("scheduled");
-                        String id = jsonObject.getString("id");
-                        JSONObject jsonHome = jsonObject.getJSONObject("home");
-                        JSONObject jsonAway = jsonObject.getJSONObject("away");
-                        String home = jsonHome.getString("market") + " " + jsonHome.getString("name");
-                        String away = jsonAway.getString("market") + " " + jsonAway.getString("name");
-                        int homeScore = jsonHome.getInt("points");
-                        int awayScore = jsonAway.getInt("points");
-                        game = new Game(id, home, away, time, homeScore, awayScore, status);
-                        listOfGames.add(game);
-                    } catch (JSONException e){
-                    }
-                    if (listOfGames.size() == games.size()) {
-                        getGamesListDone = true;
-                    }
-                }
-
-                @Override
-                public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    Log.d("main", "GOT HERE" + statusCode);
-                }
-            });
-        }
-    }
-
-    public void getTeamsList() {
-        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
-
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-        AsyncHttpClient client = new AsyncHttpClient();
-        client.get(url, new AsyncHttpResponseHandler() {
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                try {
-                    JSONArray conferences = new JSONObject(new String(responseBody)).getJSONArray("conferences");
-                    for (int i = 0; i < conferences.length(); i++) {
-                        JSONArray divisions = conferences.getJSONObject(i).getJSONArray("divisions");
-                        for (int j = 0; j < divisions.length(); j++) {
-                            JSONArray teams = divisions.getJSONObject(j).getJSONArray("teams");
-                            for (int k = 0; k < teams.length(); k++) {
-                                JSONObject team = teams.getJSONObject(k);
-                                listOfTeams.add(new TeamInformation(team.getString("market") + " " + team.getString("name"),
-                                        team.getInt("wins"), team.getInt("losses"), team.getString("id"), false));
-                            }
-                        }
-                    }
-                } catch (JSONException e){
-                }
-                getTeamsListDone = true;
-                for (TeamInformation teamInformation : listOfTeams) {
-                    Log.d("TEAMS", teamInformation.getName() + " is " + String.valueOf(teamInformation.getWins()) + " " +
-                    String.valueOf(teamInformation.getLosses()));
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-
-            }
-        });
     }
 }
