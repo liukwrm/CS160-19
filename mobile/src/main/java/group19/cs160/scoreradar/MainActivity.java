@@ -33,18 +33,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        setContentView(R.layout.splash_screen);
 
         EventBus.getDefault().register(this);
 
@@ -102,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
                     Log.d("TEAMS", teamInformation.getName() + " is " + String.valueOf(teamInformation.getWins()) + " " +
                             String.valueOf(teamInformation.getLosses()));
                 }
-                Intent intent = new Intent(MainActivity.this, SportActivity.class);
+                Intent intent = new Intent(MainActivity.this, TempActivity.class);
                 intent.putParcelableArrayListExtra("teams", listOfTeams);
                 startActivity(intent);
             }
@@ -183,6 +172,7 @@ public class MainActivity extends AppCompatActivity {
                 try {
                     JSONObject jsonObject = new JSONObject(new String(responseBody));
                     String status = jsonObject.getString("status");
+                    game.setStatus(status);
                     if (status.equals("scheduled")) {
                         listOfGames.add(game);
                     } else {
@@ -195,12 +185,12 @@ public class MainActivity extends AppCompatActivity {
                         int homeScore = jsonHome.getInt("points");
                         int awayScore = jsonAway.getInt("points");
                         g = new Game(id, home, away, time, homeScore, awayScore, status);
-                        listOfGames.add(game);
+                        listOfGames.add(g);
                     }
                 } catch (JSONException e){
                 }
                 if (cur == total - 1) {
-                    Intent intent = new Intent(MainActivity.this, SportActivity.class);
+                    Intent intent = new Intent(MainActivity.this, TempActivity.class);
                     intent.putParcelableArrayListExtra("games", listOfGames);
                     startActivity(intent);
                 } else {

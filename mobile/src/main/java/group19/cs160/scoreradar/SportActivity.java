@@ -44,33 +44,34 @@ public class SportActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+        Intent intent = getIntent();
+        listOfTeams = intent.getParcelableArrayListExtra("teams");
+        listOfGames = intent.getParcelableArrayListExtra("games");
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        Intent intent = getIntent();
-        listOfTeams = intent.getParcelableArrayListExtra("teams");
-        for (TeamInformation team : listOfTeams) {
-            Log.d("HIGUYS", team.getName());
-        }
     }
 
-    @Override
-    protected void onNewIntent(Intent intent)
-    {
-        super.onNewIntent(intent);
-        listOfGames = intent.getParcelableArrayListExtra("games");
-        for (Game game : listOfGames) {
-            Log.d("HIGUYS2", game.getHome());
-        }
-    }
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new GameTab(), "game");
-        adapter.addFragment(new TeamTab(), "sport");
+
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("games", listOfGames);
+        GameTab game = new GameTab();
+        game.setArguments(bundle);
+        adapter.addFragment(game, "game");
+
+        Bundle bundle2 = new Bundle();
+        bundle2.putParcelableArrayList("teams", listOfTeams);
+        TeamTab team = new TeamTab();
+        team.setArguments(bundle2);
+        adapter.addFragment(team, "team");
+
         viewPager.setAdapter(adapter);
     }
 

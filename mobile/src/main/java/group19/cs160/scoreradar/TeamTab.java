@@ -28,18 +28,9 @@ public class TeamTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createDataset();
+        myDataset = getArguments().getParcelableArrayList("teams");
     }
 
-    private void createDataset() {
-        myDataset = new ArrayList<>();
-        //Insert objects!
-        myDataset.add(new TeamInformation("Atlanta Hawks", 7, 10, null, false));
-        myDataset.add(new TeamInformation("Atlanta Hawks", 7, 10, null, false));
-        myDataset.add(new TeamInformation("Atlanta Hawks", 7, 10, null, false));
-        myDataset.add(new TeamInformation("Atlanta Hawks", 7, 10, null, false));
-        myDataset.add(new TeamInformation("Atlanta Hawks", 7, 10, null, false));
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

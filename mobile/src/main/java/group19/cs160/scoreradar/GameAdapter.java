@@ -17,7 +17,7 @@ import java.util.ArrayList;
  * Created by liukwarm on 12/3/15.
  */
 public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
-    private ArrayList<GameInformation> mDataset;
+    private ArrayList<Game> mDataset;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -26,29 +26,32 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         // each data item is just a string in this case
         public TextView score1;
         public TextView score2;
-        public ImageButton team1;
-        public ImageButton team2;
+        public ImageView team1;
+        public ImageView team2;
         public ImageButton subscribe;
+        public TextView aux;
 
         public ViewHolder(View v) {
             super(v);
             score1 = (TextView) v.findViewById(R.id.score1);
             score2 = (TextView) v.findViewById(R.id.score2);
-            team1 = (ImageButton) v.findViewById(R.id.team1);
-            team2 = (ImageButton) v.findViewById(R.id.team2);
+            team1 = (ImageView) v.findViewById(R.id.team1);
+            team2 = (ImageView) v.findViewById(R.id.team2);
+            aux = (TextView) v.findViewById(R.id.aux);
             subscribe = (ImageButton) v.findViewById(R.id.subscribe);
+            subscribe.setBackground(null);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public GameAdapter(ArrayList<GameInformation> myDataset) {
+    public GameAdapter(ArrayList<Game> myDataset) {
         mDataset = myDataset;
     }
 
     // Create new views (invoked by the layout manager)
     @Override
     public GameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
-                                                   int viewType) {
+                                                     int viewType) {
         View v = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.game_item, parent, false);
         ViewHolder vh = new ViewHolder(v);
@@ -60,14 +63,14 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     public void onBindViewHolder(ViewHolder holder, int position) {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
-        GameInformation game = mDataset.get(position);
-        holder.score1.setText(String.valueOf(game.score1));
-        holder.score2.setText(String.valueOf(game.score2));
-        holder.team1.setImageResource(game.logo1);
-        holder.team2.setImageResource(game.logo2);
-        if (game.subscribed) {
-            holder.subscribe.setClickable(false);
-        }
+        Game game = mDataset.get(position);
+        holder.score1.setText("" + game.getHomeScore());
+        holder.score2.setText("" + game.getAwayScore());
+        holder.aux.setText(game.getStatus());
+        holder.team1.setImageResource(GameInformation.getLogo(game.getHome()));
+        holder.team2.setImageResource(GameInformation.getLogo(game.getAway()));
+        //need to change for personal things
+        holder.subscribe.setClickable(false);
 
     }
 

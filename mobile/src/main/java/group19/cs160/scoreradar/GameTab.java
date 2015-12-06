@@ -19,25 +19,15 @@ public class GameTab extends Fragment {
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
-    private ArrayList<GameInformation> myDataset;
+    private ArrayList<Game> games;
 
     public GameTab() {
-        // Required empty public constructor
     }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        createDataset();
-    }
-
-    private void createDataset() {
-        myDataset = new ArrayList<>();
-        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
-        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
-        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
-        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
-        myDataset.add(new GameInformation("Atlanta Hawks", "Cleveland Cavaliers", 6, 10, false));
+        games = getActivity().getIntent().getExtras().getParcelableArrayList("games");
     }
 
     @Override
@@ -62,7 +52,7 @@ public class GameTab extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameAdapter(myDataset);
+        mAdapter = new GameAdapter(games);
         mRecyclerView.setAdapter(mAdapter);
     }
 
