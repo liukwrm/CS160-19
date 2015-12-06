@@ -25,6 +25,10 @@
             android:theme="@style/MyMaterialTheme">
 
         </activity>
+
+        <!--<service-->
+            <!--android:name=".ListenerService"-->
+            <!--android:label="@string/app_name"/>-->
     </application>
 
 </manifest>

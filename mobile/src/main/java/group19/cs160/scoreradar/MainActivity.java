@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar;
 
+import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
+import pl.tajchert.buswear.EventBus;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        EventBus.getDefault().register(this);
 
         startSportActivity();
     }
@@ -107,5 +111,9 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    public void onEvent(Game game){
+        EventBus.getDefault().postRemote(game, this);
     }
 }

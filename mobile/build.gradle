@@ -29,4 +29,5 @@ dependencies {
     compile 'com.android.support:cardview-v7:22.0.+'
     compile 'com.android.support:recyclerview-v7:22.0.+'
     compile 'com.loopj.android:android-async-http:1.4.9'
+    compile 'pl.tajchert:buswear:0.9.6'
 }

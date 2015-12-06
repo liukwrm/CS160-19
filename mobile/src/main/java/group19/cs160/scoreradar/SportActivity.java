@@ -29,6 +29,10 @@ public class SportActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private TabLayout tabLayout;
     private ViewPager viewPager;
+    final ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
+    ArrayList<Game> listOfGames = new ArrayList<Game>();
+    boolean getTeamsListDone = false;
+    boolean getGamesListDone = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,7 +92,8 @@ public class SportActivity extends AppCompatActivity {
         }
     }
 
-    public void parseScheduledGames(ArrayList<Game> games) {
+    public void parseScheduledGames(final ArrayList<Game> games) {
+        listOfGames = new ArrayList<Game>();
         for (Game g : games) {
             try {
                 if (games.indexOf(g) == 0) {
@@ -114,17 +119,19 @@ public class SportActivity extends AppCompatActivity {
                         String status = jsonObject.getString("status");
                         String time = jsonObject.getString("scheduled");
                         String id = jsonObject.getString("id");
-                        JSONObject jsonhome = jsonObject.getJSONObject("home");
-                        JSONObject jsonaway = jsonObject.getJSONObject("away");
-                        String home = jsonhome.getString("market") + " " + jsonhome.getString("name");
-                        String away = jsonaway.getString("market") + " " + jsonaway.getString("name");
-                        int homescore = jsonhome.getInt("points");
-                        int awayscore = jsonaway.getInt("points");
-                        game = new Game(id, home, away, time, homescore, awayscore, status);
+                        JSONObject jsonHome = jsonObject.getJSONObject("home");
+                        JSONObject jsonAway = jsonObject.getJSONObject("away");
+                        String home = jsonHome.getString("market") + " " + jsonHome.getString("name");
+                        String away = jsonAway.getString("market") + " " + jsonAway.getString("name");
+                        int homeScore = jsonHome.getInt("points");
+                        int awayScore = jsonAway.getInt("points");
+                        game = new Game(id, home, away, time, homeScore, awayScore, status);
+                        listOfGames.add(game);
                     } catch (JSONException e){
                     }
-                    Log.d("stats", game.getHome() + " vs " + game.getAway() + " is currently " + game.getStatus() +
-                            ". The score " + game.getHomeScore() + " to " + game.getAwayScore());
+                    if (listOfGames.size() == games.size()) {
+                        getGamesListDone = true;
+                    }
                 }
 
                 @Override
@@ -148,7 +155,6 @@ public class SportActivity extends AppCompatActivity {
         client.get(url, new AsyncHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
                 try {
                     JSONArray conferences = new JSONObject(new String(responseBody)).getJSONArray("conferences");
                     for (int i = 0; i < conferences.length(); i++) {
@@ -164,6 +170,7 @@ public class SportActivity extends AppCompatActivity {
                     }
                 } catch (JSONException e){
                 }
+                getTeamsListDone = true;
                 for (TeamInformation teamInformation : listOfTeams) {
                     Log.d("TEAMS", teamInformation.getName() + " is " + String.valueOf(teamInformation.getWins()) + " " +
                     String.valueOf(teamInformation.getLosses()));
