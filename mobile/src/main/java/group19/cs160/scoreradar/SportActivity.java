@@ -15,6 +15,7 @@ import android.util.Log;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -47,6 +48,7 @@ public class SportActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         ArrayList<Game> games = intent.getParcelableArrayListExtra("games");
+        getTeamsList();
         parseScheduledGames(games);
     }
 
@@ -89,7 +91,11 @@ public class SportActivity extends AppCompatActivity {
     public void parseScheduledGames(ArrayList<Game> games) {
         for (Game g : games) {
             try {
-                Thread.sleep(1500);
+                if (games.indexOf(g) == 0) {
+                    Thread.sleep(3000);
+                } else {
+                    Thread.sleep(1500);
+                }
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -127,5 +133,47 @@ public class SportActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    public void getTeamsList() {
+        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+
+        try {
+            Thread.sleep(1500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
+                try {
+                    JSONArray conferences = new JSONObject(new String(responseBody)).getJSONArray("conferences");
+                    for (int i = 0; i < conferences.length(); i++) {
+                        JSONArray divisions = conferences.getJSONObject(i).getJSONArray("divisions");
+                        for (int j = 0; j < divisions.length(); j++) {
+                            JSONArray teams = divisions.getJSONObject(j).getJSONArray("teams");
+                            for (int k = 0; k < teams.length(); k++) {
+                                JSONObject team = teams.getJSONObject(k);
+                                listOfTeams.add(new TeamInformation(team.getString("market") + " " + team.getString("name"),
+                                        team.getInt("wins"), team.getInt("losses"), team.getString("id"), false));
+                            }
+                        }
+                    }
+                } catch (JSONException e){
+                }
+                for (TeamInformation teamInformation : listOfTeams) {
+                    Log.d("TEAMS", teamInformation.getName() + " is " + String.valueOf(teamInformation.getWins()) + " " +
+                    String.valueOf(teamInformation.getLosses()));
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 }

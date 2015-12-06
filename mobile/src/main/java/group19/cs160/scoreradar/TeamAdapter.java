@@ -57,7 +57,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
         // - get element from your dataset at this position
         // - replace the contents of the view with that element
         TeamInformation team = mDataset.get(position);
-        holder.record.setText(team.record);
+        holder.record.setText(String.valueOf(team.getWins()) + " - " + String.valueOf(team.getLosses()));
         holder.logo.setImageResource(team.logo);
         if (team.subscribed) {
             holder.subscribe.setClickable(false);
