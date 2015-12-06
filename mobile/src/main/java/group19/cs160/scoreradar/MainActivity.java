@@ -1,13 +1,27 @@
 package group19.cs160.scoreradar;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+
+import cz.msebera.android.httpclient.Header;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -26,6 +40,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        startSportActivity();
     }
 
     @Override
@@ -48,5 +64,48 @@ public class MainActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void startSportActivity() {
+        Calendar c = Calendar.getInstance();
+        int year = c.get(Calendar.YEAR);
+        int month = c.get(Calendar.MONTH) + 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
+
+        String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
+                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        Log.d("main", url);
+
+        AsyncHttpClient client = new AsyncHttpClient();
+        client.get(url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                ArrayList<Game> games = new ArrayList<Game>();
+                try {
+                    JSONArray jsonArray = new JSONObject(new String(responseBody)).getJSONArray("games");
+                    for (int i = 0; i < jsonArray.length(); i++) {
+                        JSONObject jsonObject = jsonArray.getJSONObject(i);
+                        String id = jsonObject.getString("id");
+                        String time = jsonObject.getString("scheduled");
+                        String home = jsonObject.getJSONObject("home").getString("name");
+                        String away = jsonObject.getJSONObject("away").getString("name");
+                        games.add(new Game(id, home, away, time));
+                    }
+                } catch (JSONException e){
+                }
+                for (Game game : games){
+                    Log.d("games", game.getHome() + " vs " + game.getAway() + " at " + game.getTime());
+                    Log.d("id", game.getId());
+                }
+                Intent intent = new Intent(MainActivity.this, SportActivity.class);
+                intent.putParcelableArrayListExtra("games", games);
+                startActivity(intent);
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+
+            }
+        });
     }
 }
