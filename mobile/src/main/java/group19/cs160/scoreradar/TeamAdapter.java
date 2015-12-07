@@ -55,6 +55,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
         }
 
         public void onClick(View v) {
+            Log.d("TEAMCLICK", v.toString());
             if (v instanceof ImageButton) {
                 mListener.click((ImageButton) v, this);
             }

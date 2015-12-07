@@ -46,6 +46,10 @@ public class TempActivity extends AppCompatActivity {
         return TEAMSPATH;
     }
 
+    public static String getGamesPath() {
+        return GAMESPATH;
+    }
+
 
     private void setUpPreferences() {
         followingGames = new ArrayList<>();

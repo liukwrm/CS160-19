@@ -71,7 +71,8 @@
                     android:src="@drawable/subscribe_button"
                     android:scaleType="fitCenter"
                     android:layout_gravity="center"
-                    android:layout_margin="0dp" />
+                    android:layout_margin="0dp"
+                    />
             </LinearLayout>
 
             <LinearLayout

@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
+    static final String KEY = "uunmhwurg5munkwu3s59q9r8";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getTeamsList() {
-        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=" + KEY;
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -116,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
-                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + KEY;
         Log.d("main", url);
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -155,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getScores(final ArrayList<Game> games, final int cur, final int total) {
         final Game game = games.get(cur);
-        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=" + KEY;
 
         try {
             Thread.sleep(1200);
