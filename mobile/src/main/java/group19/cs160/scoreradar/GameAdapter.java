@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import pl.tajchert.buswear.EventBus;
+
 /**
  * Created by liukwarm on 12/3/15.
  */
@@ -72,6 +74,11 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         mDataset = myDataset;
         this.myGames = myGames;
         mRecyclerView = mrv;
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEvent(Game game){
+        return;
     }
 
     // Create new views (invoked by the layout manager)
@@ -133,6 +140,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
             ((ImageButton) v).setImageResource(R.drawable.button_unsubscribe);
         }
+        ArrayList<String> array = new ArrayList<>();
+        JSONArray games = new JSONArray();
+        for (String s : myGames) {
+            games.put(s);
+        }
+        EventBus.getDefault().post("game sub" + games.toString(), mRecyclerView.getContext());
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -143,7 +156,21 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         Game game = mDataset.get(position);
         holder.score1.setText("" + game.getHomeScore());
         holder.score2.setText("" + game.getAwayScore());
-        holder.aux.setText(game.getStatus());
+
+        switch(game.getStatus()) {
+            case "created":
+                holder.aux.setText("New");
+                break;
+            case "scheduled":
+                holder.aux.setText(game.getTime());
+                break;
+            case "closed":
+                holder.aux.setText("Final Score");
+                break;
+            case "inprogress":
+                holder.aux.setText("VS");
+                break;
+        }
         holder.team1.setImageResource(GameInformation.getLogo(game.getHome()));
         holder.team2.setImageResource(GameInformation.getLogo(game.getAway()));
         //need to change for personal things

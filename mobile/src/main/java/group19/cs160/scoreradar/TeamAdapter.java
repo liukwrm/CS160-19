@@ -1,5 +1,6 @@
 
 package group19.cs160.scoreradar;
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +22,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import pl.tajchert.buswear.EventBus;
 
 /**
  * Created by liukwarm on 12/3/15.
@@ -73,6 +76,11 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
         mDataset = myDataset;
         this.myTeams = myTeams;
         mRecyclerView = mrv;
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEvent(Game game){
+        return;
     }
 
     // Create new views (invoked by the layout manager)
@@ -97,7 +105,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
             myTeams.remove(mDataset.get(itemPosition).getId());
 
             try {
-                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getTeamsPath(), Context.MODE_PRIVATE);
                 JSONArray array = new JSONArray();
                 for (String s : myTeams) {
                     array.put(s);
@@ -118,7 +126,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
             myTeams.add(mDataset.get(itemPosition).getId());
 
             try {
-                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getTeamsPath(), Context.MODE_PRIVATE);
                 JSONArray array = new JSONArray();
                 for (String s : myTeams) {
                     array.put(s);
@@ -135,6 +143,12 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
             ((ImageButton) v).setImageResource(R.drawable.button_unsubscribe);
         }
+        ArrayList<String> array = new ArrayList<>();
+        JSONArray games = new JSONArray();
+        for (String s : myTeams) {
+            games.put(s);
+        }
+        EventBus.getDefault().post("team sub" + games.toString(), mRecyclerView.getContext());
     }
 
     // Replace the contents of a view (invoked by the layout manager)

@@ -9,6 +9,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 
@@ -82,5 +85,6 @@ public class GameTab extends Fragment {
         mAdapter = new GameAdapter(games, myGames, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
     }
+
 
 }

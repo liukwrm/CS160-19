@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar;
 
+import android.app.usage.UsageEvents;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,6 +20,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+
+import pl.tajchert.buswear.EventBus;
 
 
 public class TempActivity extends AppCompatActivity {
@@ -40,6 +43,17 @@ public class TempActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         listOfTeams = intent.getParcelableArrayListExtra("teams");
+
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEvent(String text) {
+        if (text.startsWith("game sub")){
+            Log.d("EVENTBUS", "new Game Sub");
+        }
+        if (text.startsWith("team sub")){
+            Log.d("EVENTBUS", "new Team Sub");
+        }
     }
 
     public static String getTeamsPath() {
