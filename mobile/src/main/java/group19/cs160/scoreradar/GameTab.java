@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import pl.tajchert.buswear.EventBus;
+
 /**
  * Created by liukwarm on 12/3/15.
  */
@@ -54,6 +56,11 @@ public class GameTab extends Fragment {
         // specify an adapter (see also next example)
         mAdapter = new GameAdapter(games);
         mRecyclerView.setAdapter(mAdapter);
+
+        for(Game game : games) {
+            System.out.println("Game: " + game);
+            EventBus.getDefault().postRemote(game, this.getActivity().getBaseContext());
+        }
     }
 
 }

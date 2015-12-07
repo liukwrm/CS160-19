@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="group19.cs160.scoreradar.WearGame"
+    tools:deviceIds="wear_round">
+
+    <ImageView android:id="@+id/background" android:layout_height="fill_parent"
+        android:layout_width="fill_parent"
+        android:src="@drawable/watch_basketball_background01" />
+
+    <TextView android:id="@+id/score1" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score1"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:layout_above="@+id/time"
+        android:layout_toStartOf="@+id/time"
+        android:layout_marginBottom="19dp" />
+
+    <TextView
+        android:id="@+id/score2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score2"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:layout_alignTop="@+id/score1"
+        android:layout_toEndOf="@+id/time" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TIME"
+        android:id="@+id/time"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="31dp"
+        android:textSize="18dp"
+        android:textColor="@color/black" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/team1logo"
+        android:layout_above="@+id/score1"
+        android:layout_alignStart="@+id/score1"
+        android:layout_alignEnd="@+id/score1" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/team2logo"
+        android:layout_alignEnd="@+id/score2"
+        android:layout_above="@+id/score2"
+        android:layout_toEndOf="@+id/score2"
+        android:layout_alignStart="@+id/score2" />
+</RelativeLayout>
