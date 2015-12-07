@@ -12,6 +12,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.HashSet;
 
+import pl.tajchert.buswear.EventBus;
+
 /**
  * Created by liukwarm on 12/3/15.
  */
@@ -21,6 +23,7 @@ public class GameTab extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Game> games;
+    private HashSet<Game> gamesSet;
     private HashSet<String> myGames;
 
     public GameTab() {
@@ -37,6 +40,21 @@ public class GameTab extends Fragment {
                 myGames.add(i);
             }
         }
+
+        gamesSet = new HashSet<>();
+        for (Game g : games) {
+            gamesSet.add(g);
+        }
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEventMainThread(Game game) {
+        gamesSet.add(game);
+        games.clear();
+        for (Game g : gamesSet) {
+            games.add(g);
+        }
+        mRecyclerView.swapAdapter(new GameAdapter(games, myGames, mRecyclerView), false);
     }
 
     @Override

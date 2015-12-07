@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar;
 import android.content.Context;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -89,27 +90,49 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
 
     private void addTeam(View v, ViewHolder vh) {
         int itemPosition = vh.getAdapterPosition();
-        Log.d("ADDGAME", "" + itemPosition);
-        myGames.add(mDataset.get(itemPosition).getId());
+        if (myGames.contains(mDataset.get(itemPosition).getId())) {
+            Log.d("REMOVEGAME", "" + itemPosition);
+            myGames.remove(mDataset.get(itemPosition).getId());
 
-        try {
-            FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
-            JSONArray array = new JSONArray();
-            for (String s : myGames) {
-                array.put(s);
+            try {
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                JSONArray array = new JSONArray();
+                for (String s : myGames) {
+                    array.put(s);
+                }
+                op.write(array.toString().getBytes());
+                Log.d("REMOVEGAMESAVE", array.toString());
+                op.close();
+
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
             }
-            op.write(array.toString().getBytes());
-            Log.d("ADDGAMESAVE", array.toString());
-            op.close();
 
-        } catch (FileNotFoundException e) {
+            ((ImageButton) v).setImageResource(R.drawable.button_subscribe);
+        } else {
+            Log.d("ADDGAME", "" + itemPosition);
+            myGames.add(mDataset.get(itemPosition).getId());
 
-        } catch (IOException e) {
+            try {
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                JSONArray array = new JSONArray();
+                for (String s : myGames) {
+                    array.put(s);
+                }
+                op.write(array.toString().getBytes());
+                Log.d("ADDGAMESAVE", array.toString());
+                op.close();
 
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
+            }
+
+            ((ImageButton) v).setImageResource(R.drawable.button_unsubscribe);
         }
-
-        v.setClickable(false);
-        ((ImageButton) v).setImageResource(R.drawable.houston_rockets);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -125,10 +148,10 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.team2.setImageResource(GameInformation.getLogo(game.getAway()));
         //need to change for personal things
         if (myGames.contains(game.getId())) {
-            holder.subscribe.setClickable(false);
-            holder.subscribe.setImageResource(R.drawable.houston_rockets);
+            holder.subscribe.setImageResource(R.drawable.button_unsubscribe);
+        } else {
+            holder.subscribe.setImageResource(R.drawable.button_subscribe);
         }
-
     }
 
     // Return the size of your dataset (invoked by the layout manager)

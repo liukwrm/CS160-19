@@ -91,27 +91,50 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
 
     private void addTeam(View v, ViewHolder vh) {
         int itemPosition = vh.getAdapterPosition();
-        Log.d("ADDTEAM", "" + itemPosition);
-        myTeams.add(mDataset.get(itemPosition).getId());
+        Log.d("ADD", "" + itemPosition);
+        if (myTeams.contains(mDataset.get(itemPosition).getId())) {
+            Log.d("REMOVETEAM", "" + itemPosition);
+            myTeams.remove(mDataset.get(itemPosition).getId());
 
-        try {
-            FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getTeamsPath(), Context.MODE_PRIVATE);
-            JSONArray array = new JSONArray();
-            for (String s : myTeams) {
-                array.put(s);
+            try {
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                JSONArray array = new JSONArray();
+                for (String s : myTeams) {
+                    array.put(s);
+                }
+                op.write(array.toString().getBytes());
+                Log.d("REMOVETEAMSAVE", array.toString());
+                op.close();
+
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
             }
-            op.write(array.toString().getBytes());
-            Log.d("ADDTEAMSAVE", array.toString());
-            op.close();
 
-        } catch (FileNotFoundException e) {
+            ((ImageButton) v).setImageResource(R.drawable.button_subscribe);
+        } else {
+            Log.d("ADDTEAM", "" + itemPosition);
+            myTeams.add(mDataset.get(itemPosition).getId());
 
-        } catch (IOException e) {
+            try {
+                FileOutputStream op = mRecyclerView.getContext().openFileOutput(TempActivity.getGamesPath(), Context.MODE_PRIVATE);
+                JSONArray array = new JSONArray();
+                for (String s : myTeams) {
+                    array.put(s);
+                }
+                op.write(array.toString().getBytes());
+                Log.d("ADDTEAMSAVE", array.toString());
+                op.close();
 
+            } catch (FileNotFoundException e) {
+
+            } catch (IOException e) {
+
+            }
+
+            ((ImageButton) v).setImageResource(R.drawable.button_unsubscribe);
         }
-
-        v.setClickable(false);
-        ((ImageButton) v).setImageResource(R.drawable.houston_rockets);
     }
 
     // Replace the contents of a view (invoked by the layout manager)
@@ -124,8 +147,9 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
         holder.record.setText(String.valueOf(team.getWins()) + " - " + String.valueOf(team.getLosses()));
         holder.logo.setImageResource(GameInformation.getLogo(team.getName()));
         if (myTeams.contains(team.getId())) {
-            holder.subscribe.setClickable(false);
-            holder.subscribe.setImageResource(R.drawable.houston_rockets);
+            holder.subscribe.setImageResource(R.drawable.button_unsubscribe);
+        } else {
+            holder.subscribe.setImageResource(R.drawable.button_subscribe);
         }
 
     }

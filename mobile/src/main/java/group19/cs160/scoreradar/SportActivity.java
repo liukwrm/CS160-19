@@ -20,9 +20,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
+import pl.tajchert.buswear.EventBus;
 
 public class SportActivity extends AppCompatActivity {
 
@@ -53,12 +56,30 @@ public class SportActivity extends AppCompatActivity {
         followingGames = intent.getStringArrayListExtra("myGames");
         followingTeams = intent.getStringArrayListExtra("myTeams");
 
+        //Sort based on alphabetical order
+
+        TeamInformation[] tempTeams = listOfTeams.toArray(new TeamInformation[listOfTeams.size()]);
+//        Game[] tempGames = listOfGames.toArray(new Game[listOfGames.size()]);
+        Arrays.sort(tempTeams, new TeamComparator());
+        listOfTeams = new ArrayList<>(Arrays.asList(tempTeams));
+
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+
+    public class TeamComparator implements Comparator<TeamInformation> {
+        public int compare(TeamInformation ti1, TeamInformation ti2) {
+            if (ti1.getName().compareTo(ti2.getName()) > 0) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
     }
 
 
