@@ -31,6 +31,9 @@ public class SportActivity extends AppCompatActivity {
     private ViewPager viewPager;
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
     ArrayList<Game> listOfGames = new ArrayList<Game>();
+
+    ArrayList<String> followingGames;
+    ArrayList<String> followingTeams;
 //    boolean getTeamsListDone = false;
 //    boolean getGamesListDone = false;
 
@@ -47,6 +50,8 @@ public class SportActivity extends AppCompatActivity {
         Intent intent = getIntent();
         listOfTeams = intent.getParcelableArrayListExtra("teams");
         listOfGames = intent.getParcelableArrayListExtra("games");
+        followingGames = intent.getStringArrayListExtra("myGames");
+        followingTeams = intent.getStringArrayListExtra("myTeams");
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -62,12 +67,14 @@ public class SportActivity extends AppCompatActivity {
 
         Bundle bundle = new Bundle();
         bundle.putParcelableArrayList("games", listOfGames);
+        bundle.putStringArrayList("myGames", followingGames);
         GameTab game = new GameTab();
         game.setArguments(bundle);
         adapter.addFragment(game, "game");
 
         Bundle bundle2 = new Bundle();
         bundle2.putParcelableArrayList("teams", listOfTeams);
+        bundle2.putStringArrayList("myTeams", followingTeams);
         TeamTab team = new TeamTab();
         team.setArguments(bundle2);
         adapter.addFragment(team, "team");

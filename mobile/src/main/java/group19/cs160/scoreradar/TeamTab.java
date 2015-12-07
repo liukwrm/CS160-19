@@ -4,12 +4,14 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 /**
  * Created by liukwarm on 12/3/15.
@@ -20,6 +22,7 @@ public class TeamTab extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<TeamInformation> myDataset;
+    private HashSet<String> myTeams;
 
     public TeamTab() {
         // Required empty public constructor
@@ -29,6 +32,13 @@ public class TeamTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         myDataset = getArguments().getParcelableArrayList("teams");
+        ArrayList<String> temp = getArguments().getStringArrayList("myTeams");
+        myTeams = new HashSet<>();
+        if (temp != null) {
+            for (String i : temp) {
+                myTeams.add(i);
+            }
+        }
     }
 
 
@@ -54,7 +64,7 @@ public class TeamTab extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new TeamAdapter(myDataset);
+        mAdapter = new TeamAdapter(myDataset, myTeams, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
     }
 
