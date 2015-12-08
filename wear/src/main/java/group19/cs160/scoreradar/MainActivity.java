@@ -73,8 +73,6 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
 
         // Register the local broadcast receiver
         IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
-        MessageReceiver messageReceiver = new MessageReceiver();
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
 
         EventBus.getDefault().register(this);
 
@@ -85,16 +83,6 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
     @Override
     public void onFragmentInteraction(Uri uri) {
 
-    }
-
-    public class MessageReceiver extends BroadcastReceiver {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            String message = intent.getStringExtra("message");
-            // Display message
-            Log.d("message received", message+"  nada");
-
-        }
     }
 
     private void populateLinks(LinearLayout ll) {

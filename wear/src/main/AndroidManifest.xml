@@ -30,10 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".WearGame"
-            android:label="@string/title_activity_wear_game" >
-        </activity>
 
         <meta-data
             android:name="com.google.android.gms.version"
