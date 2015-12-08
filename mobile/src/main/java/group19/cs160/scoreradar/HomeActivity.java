@@ -10,7 +10,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageButton;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 
 import pl.tajchert.buswear.EventBus;
@@ -31,6 +36,8 @@ public class HomeActivity extends AppCompatActivity {
     ArrayList<String> followingTeams;
     private Toolbar toolbar;
 
+    HashMap<String, Integer> gamesMap;
+    int countGames = 0;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +61,11 @@ public class HomeActivity extends AppCompatActivity {
             }
         }
 
+        gamesMap = new HashMap<String, Integer>();
+        for (int i = 0; i < listOfGames.size(); i++) {
+            gamesMap.put(listOfGames.get(i).getId(), i);
+        }
+
         mRecyclerView = (RecyclerView) findViewById(R.id.my_recycler_view);
 
         // use this setting to improve performance if you know that changes
@@ -75,7 +87,7 @@ public class HomeActivity extends AppCompatActivity {
             }
         });
 
-
+        sendData();
     }
 
     public void basketball() {
@@ -88,4 +100,26 @@ public class HomeActivity extends AppCompatActivity {
         startActivity(newIntent);
     }
 
+    public void sendData() {
+        Gson gson = new Gson();
+        Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
+        String json = gson.toJson(listOfGames, listOfTemp);
+        EventBus.getDefault().post("WearActivity" + json, this);
+    }
+
+
+    public void onEvent(Integer i) {
+        countGames = i;
+    }
+
+    public void onEvent(Game game) {
+        listOfGames.set(gamesMap.get(game.getId()), game);
+        countGames -= 1;
+        if (countGames == 0) {
+            Gson gson = new Gson();
+            Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
+            String json = gson.toJson(listOfGames, listOfObject);
+            EventBus.getDefault().post("WearUpdate" + json, this);
+        }
+    }
 }

@@ -41,9 +41,6 @@ public class SportActivity extends AppCompatActivity {
 
     ArrayList<String> followingGames;
     ArrayList<String> followingTeams;
-
-    HashMap<String, Integer> gamesMap;
-    int countGames = 0;
 //    boolean getTeamsListDone = false;
 //    boolean getGamesListDone = false;
 
@@ -70,19 +67,11 @@ public class SportActivity extends AppCompatActivity {
         Arrays.sort(tempTeams, new TeamComparator());
         listOfTeams = new ArrayList<>(Arrays.asList(tempTeams));
 
-        gamesMap = new HashMap<String, Integer>();
-        for (int i = 0; i < listOfGames.size(); i++) {
-            gamesMap.put(listOfGames.get(i).getId(), i);
-        }
-
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-        sendData();
-
     }
 
 
@@ -139,28 +128,6 @@ public class SportActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
-        }
-    }
-
-    public void sendData() {
-        Gson gson = new Gson();
-        Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
-        String json = gson.toJson(listOfGames, listOfTemp);
-        EventBus.getDefault().post("WearActivity" + json, this);
-    }
-
-    public void onEvent(Integer i) {
-        countGames = i;
-    }
-
-    public void onEvent(Game game) {
-        listOfGames.set(gamesMap.get(game.getId()), game);
-        countGames -= 1;
-        if (countGames == 0) {
-            Gson gson = new Gson();
-            Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
-            String json = gson.toJson(listOfGames, listOfObject);
-            EventBus.getDefault().post("WearUpdate" + json, this);
         }
     }
 }
