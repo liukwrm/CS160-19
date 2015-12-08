@@ -81,6 +81,8 @@ public class SportActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        sendData();
+
     }
 
 
@@ -140,6 +142,13 @@ public class SportActivity extends AppCompatActivity {
         }
     }
 
+    public void sendData() {
+        Gson gson = new Gson();
+        Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
+        String json = gson.toJson(listOfGames, listOfTemp);
+        EventBus.getDefault().post("WearActivity" + json, this);
+    }
+
     public void onEvent(Integer i) {
         countGames = i;
     }
@@ -151,7 +160,7 @@ public class SportActivity extends AppCompatActivity {
             Gson gson = new Gson();
             Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
             String json = gson.toJson(listOfGames, listOfObject);
-            EventBus.getDefault().post("WearGames" + json, this);
+            EventBus.getDefault().post("WearUpdate" + json, this);
         }
     }
 }
