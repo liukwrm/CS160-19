@@ -74,11 +74,7 @@ public class SportActivity extends AppCompatActivity {
 
     public class TeamComparator implements Comparator<TeamInformation> {
         public int compare(TeamInformation ti1, TeamInformation ti2) {
-            if (ti1.getName().compareTo(ti2.getName()) > 0) {
-                return 1;
-            } else {
-                return 0;
-            }
+            return ti1.getName().compareTo(ti2.getName());
         }
     }
 

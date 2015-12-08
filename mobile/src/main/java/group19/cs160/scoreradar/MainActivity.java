@@ -20,6 +20,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 
 import cz.msebera.android.httpclient.Header;
@@ -185,6 +186,24 @@ public class MainActivity extends AppCompatActivity {
                         String away = jsonAway.getString("market") + " " + jsonAway.getString("name");
                         int homeScore = jsonHome.getInt("points");
                         int awayScore = jsonAway.getInt("points");
+                        JSONArray homeScoring = jsonHome.getJSONArray("scoring");
+                        JSONArray awayScoring = jsonAway.getJSONArray("scoring");
+                        JSONObject homeStats = jsonHome.getJSONObject("statistics");
+                        JSONObject awayStats = jsonAway.getJSONObject("statistics");
+                        ArrayList<Integer> homeQuarters = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0));
+                        ArrayList<Integer> awayQuarters = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0));
+                        for (int i = 0; i < homeScoring.length(); i++) {
+                            homeQuarters.set(i, homeScoring.getJSONObject(i).getInt("points"));
+                            awayQuarters.set(i, awayScoring.getJSONObject(i).getInt("points"));
+                        }
+                        int homeRebounds = homeStats.getInt("rebounds");
+                        int homeSteals = homeStats.getInt("steals");
+                        int homeBlocks = homeStats.getInt("blocks");
+                        int homeTurnovers = homeStats.getInt("turnovers");
+                        int awayRebounds = awayStats.getInt("rebounds");
+                        int awaySteals = awayStats.getInt("steals");
+                        int awayBlocks = awayStats.getInt("blocks");
+                        int awayTurnovers = awayStats.getInt("turnovers");
                         g = new Game(id, home, away, time, homeScore, awayScore, status);
                         listOfGames.add(g);
                     }
