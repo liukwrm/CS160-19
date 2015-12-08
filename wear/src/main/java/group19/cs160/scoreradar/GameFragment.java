@@ -6,11 +6,22 @@ import android.os.Bundle;
 import android.app.Fragment;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.support.v4.view.MotionEventCompat;
+import android.support.wearable.view.DismissOverlayView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+
+import pl.tajchert.buswear.EventBus;
 
 
 /**
@@ -24,6 +35,7 @@ import android.widget.TextView;
 public class GameFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private Game g;
     private String id;
     private String home;
     private String away;
@@ -114,10 +126,10 @@ public class GameFragment extends Fragment {
      *
      */
     // TODO: Rename and change types and number of parameters
-    public static GameFragment newInstance(Game g) {
+    public static GameFragment newInstance(Game game) {
         GameFragment fragment = new GameFragment();
         Bundle args = new Bundle();
-        args.putParcelable("game", g);
+        args.putParcelable("game", game);
         fragment.setArguments(args);
         return fragment;
     }
@@ -130,7 +142,7 @@ public class GameFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            Game g = getArguments().getParcelable("game");
+            g = getArguments().getParcelable("game");
             this.home = g.getHome();
             this.away = g.getAway();
             this.homeScore = g.getHomeScore();
@@ -155,6 +167,18 @@ public class GameFragment extends Fragment {
         time.setText(this.time);
         homelogo.setImageResource(GameInformation.getLogo(home));
         awaylogo.setImageResource(GameInformation.getLogo(away));
+
+        myView.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                    Gson gson = new Gson();
+                    String json = gson.toJson(g, Game.class);
+                    EventBus.getDefault().postLocal("GameSend" + json);
+                }
+                return true;
+            }
+        });
 
         return myView;
     }

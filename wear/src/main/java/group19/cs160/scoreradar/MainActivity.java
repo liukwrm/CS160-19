@@ -3,6 +3,7 @@ package group19.cs160.scoreradar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.usage.UsageEvents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -119,6 +120,12 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
                 mGamesView.setAdapter(adapter);
             }
 
+        }
+    }
+
+    public void onEvent(String temp) {
+        if (temp.startsWith("GameSend")) {
+            EventBus.getDefault().post(temp, this);
         }
     }
 

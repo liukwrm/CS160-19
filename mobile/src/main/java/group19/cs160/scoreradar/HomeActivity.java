@@ -122,4 +122,16 @@ public class HomeActivity extends AppCompatActivity {
             EventBus.getDefault().post("WearUpdate" + json, this);
         }
     }
+
+    public void onEvent (String json) {
+        if (json.startsWith("GameSend")) {
+            json = json.substring(8);
+            Gson gson = new Gson();
+            Game game = gson.fromJson(json, Game.class);
+            Intent intent = new Intent(this, SpecificGame.class);
+            intent.putExtra("game", game);
+            startActivity(intent);
+        }
+    }
+
 }
