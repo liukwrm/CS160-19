@@ -18,8 +18,14 @@ import org.w3c.dom.Text;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Date;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
 import java.util.HashSet;
+import java.util.TimeZone;
 
 import pl.tajchert.buswear.EventBus;
 
@@ -188,13 +194,27 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
                 holder.aux.setText("New");
                 break;
             case "scheduled":
-                holder.aux.setText(game.getTime());
+                try {
+                    String temp = game.getTime().substring(0,19);
+                    Log.d("TIME", temp);
+                    DateFormat utcFormat = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ss");
+                    utcFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+
+                    Date date = utcFormat.parse(temp);
+
+                    DateFormat pstFormat = new SimpleDateFormat("hh:mm:ss");
+                    pstFormat.setTimeZone(TimeZone.getTimeZone("PST"));
+
+                    holder.aux.setText("Starts at\n" + pstFormat.format(date));
+                } catch (ParseException e) {
+                    Log.d("Date", "You shouldn't have trusted internset");
+                }
                 break;
             case "closed":
                 holder.aux.setText("Final Score");
                 break;
             case "inprogress":
-                holder.aux.setText("VS");
+                holder.aux.setText("Q" + game.quarter + "\n" + game.getClock() + " left");
                 break;
         }
         holder.team1.setImageResource(GameInformation.getLogo(game.getHome()));

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -22,14 +23,14 @@ public class SpecificGame extends AppCompatActivity {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
 
         Intent intent = getIntent();
         game = intent.getParcelableExtra("game");
+        getSupportActionBar().setTitle("" + game.getHome() + " v. " + game.getAway());
         ImageView logo1 = (ImageView) findViewById(R.id.logo1);
         logo1.setImageResource(GameInformation.getLogo(game.getHome()));
-        TextView name1 = (TextView) findViewById(R.id.name1);
-        name1.setText("" + game.getHome());
         TextView first1 = (TextView) findViewById(R.id.first1);
         first1.setText("" + game.homeQuaters.get(0));
         TextView second1 = (TextView) findViewById(R.id.second1);
@@ -54,8 +55,6 @@ public class SpecificGame extends AppCompatActivity {
         turnovers1.setText("" + game.homeTurnovers);
         ImageView logo2 = (ImageView) findViewById(R.id.logo2);
         logo2.setImageResource(GameInformation.getLogo(game.getAway()));
-        TextView name2 = (TextView) findViewById(R.id.name2);
-        name2.setText("" + game.getAway());
         TextView first2 = (TextView) findViewById(R.id.first2);
         first2.setText("" + game.homeQuaters.get(0));
         TextView second2 = (TextView) findViewById(R.id.second2);
@@ -88,5 +87,16 @@ public class SpecificGame extends AppCompatActivity {
         TextView turnovers2 = (TextView) findViewById(R.id.turnovers2);
         turnovers2.setText("" + game.awayTurnovers);
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -153,5 +154,22 @@ public class SportActivity extends AppCompatActivity {
             String json = gson.toJson(listOfGames, listOfObject);
             EventBus.getDefault().post("WearGames" + json, this);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

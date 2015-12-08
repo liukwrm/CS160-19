@@ -134,7 +134,9 @@ public class MainActivity extends AppCompatActivity {
                         String time = jsonObject.getString("scheduled");
                         String home = jsonObject.getJSONObject("home").getString("name");
                         String away = jsonObject.getJSONObject("away").getString("name");
-                        games.add(new Game(id, home, away, time));
+                        String homeId = jsonObject.getJSONObject("home").getString("id");
+                        String awayId = jsonObject.getJSONObject("away").getString("id");
+                        games.add(new Game(id, home, away, time, homeId, awayId));
                     }
                 } catch (JSONException e){
                 }

@@ -35,6 +35,17 @@ public class Game implements Parcelable {
     ArrayList<Integer> awayQuaters;
 
     public Game() {
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time) {
@@ -44,6 +55,40 @@ public class Game implements Parcelable {
         this.time = time;
         this.homeScore = 0;
         this.awayScore = 0;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+
+    }
+
+    public Game(String id, String home, String away, String time, String homeId, String awayId) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        this.time = time;
+        this.homeId = homeId;
+        this.awayId = awayId;
+        this.homeScore = 0;
+        this.awayScore = 0;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore, String status) {
@@ -54,6 +99,17 @@ public class Game implements Parcelable {
         this.homeScore = homeScore;
         this.awayScore = awayScore;
         this.status = status;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
@@ -69,6 +125,17 @@ public class Game implements Parcelable {
         this.status = status;
         this.clock = clock;
         this.quarter = quarter;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,

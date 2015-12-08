@@ -148,6 +148,7 @@ public class TeamAdapter extends RecyclerView.Adapter<TeamAdapter.ViewHolder> {
         for (String s : myTeams) {
             games.put(s);
         }
+        Log.d("TEAM", games.toString());
         EventBus.getDefault().post("team sub" + games.toString(), mRecyclerView.getContext());
     }
 
