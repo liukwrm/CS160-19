@@ -68,7 +68,7 @@ public class Game implements Parcelable {
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
                 String homeId, String awayId, int homeRebounds, int homeSteals, int homeBlocks,
                 int homeTurnovers, int awayRebounds, int awaySteals, int awayBlocks, int awayTurnovers,
-                String status) {
+                String status, String clock, int quarter) {
         this.id = id;
         this.home = home;
         this.away = away;
@@ -86,6 +86,8 @@ public class Game implements Parcelable {
         this.awayBlocks = awayBlocks;
         this.awayTurnovers = awayTurnovers;
         this.status = status;
+        this.clock = clock;
+        this.quarter = quarter;
     }
 
     public String getId() {
