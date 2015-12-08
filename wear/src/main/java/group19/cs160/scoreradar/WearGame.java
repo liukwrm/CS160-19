@@ -57,6 +57,10 @@ public class WearGame extends Activity {
 
     }
 
+    protected void goToMobileGame() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

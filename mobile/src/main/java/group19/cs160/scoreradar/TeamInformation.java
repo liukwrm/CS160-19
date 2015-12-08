@@ -98,7 +98,7 @@ public class TeamInformation implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<TeamInformation> CREATOR = new Parcelable.Creator<TeamInformation>() {
+    public static final Creator<TeamInformation> CREATOR = new Creator<TeamInformation>() {
         @Override
         public TeamInformation createFromParcel(Parcel in) {
             return new TeamInformation(in);

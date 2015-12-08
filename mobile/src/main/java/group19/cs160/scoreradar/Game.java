@@ -94,6 +94,19 @@ public class Game implements Parcelable {
         this.homeScore = homeScore;
     }
 
+    @Override
+    public int hashCode() {
+        return id.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object game) {
+        if (getClass() != game.getClass()) {
+            return false;
+        }
+        return id.equals(((Game)game).getId());
+    }
+
     protected Game(Parcel in) {
         id = in.readString();
         home = in.readString();
@@ -121,7 +134,7 @@ public class Game implements Parcelable {
     }
 
     @SuppressWarnings("unused")
-    public static final Parcelable.Creator<Game> CREATOR = new Parcelable.Creator<Game>() {
+    public static final Creator<Game> CREATOR = new Creator<Game>() {
         @Override
         public Game createFromParcel(Parcel in) {
             return new Game(in);

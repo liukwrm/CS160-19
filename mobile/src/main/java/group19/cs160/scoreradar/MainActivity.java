@@ -2,9 +2,7 @@ package group19.cs160.scoreradar;
 
 import android.app.usage.UsageEvents;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,22 +11,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.EditText;
-import android.widget.Toast;
-
-import com.google.android.gms.games.Games;
-import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
-
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import group19.cs160.scoreradar.Json.GameParser;
-import group19.cs160.scoreradar.Json.ScheduleParser;
-import group19.cs160.scoreradar.Game;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -47,11 +29,14 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
+    static final String KEY = "uunmhwurg5munkwu3s59q9r8";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.splash_screen);
+
+        EventBus.getDefault().register(this);
 
         getTeamsList();
 
@@ -82,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getTeamsList() {
-        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=" + KEY;
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -132,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
-                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + KEY;
         Log.d("main", url);
 
         AsyncHttpClient client = new AsyncHttpClient();
@@ -171,7 +156,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void getScores(final ArrayList<Game> games, final int cur, final int total) {
         final Game game = games.get(cur);
-        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=" + KEY;
 
         try {
             Thread.sleep(1200);
@@ -221,62 +206,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    public void go(View view){
-        int year = Integer.valueOf(((EditText) findViewById(R.id.year)).getText().toString());
-        int month = Integer.valueOf(((EditText) findViewById(R.id.month)).getText().toString());
-        int day = Integer.valueOf(((EditText) findViewById(R.id.day)).getText().toString());
-        getScheduledGames(year, month, day);
-    }
-
-    public void stats(View view){
-        String id = ((EditText) findViewById(R.id.gameid)).getText().toString();
-        getGameStats(id);
-    }
-
-    public void save(View view){
-        String teams = ((EditText) findViewById(R.id.teams)).getText().toString();
-        String players = ((EditText) findViewById(R.id.players)).getText().toString();
-        ArrayList<String> teamsList = new ArrayList<String>();
-        teamsList.addAll(Arrays.asList(teams.split("\\s*,\\s*")));
-        ArrayList<String> playersList = new ArrayList<String>();
-        playersList.addAll(Arrays.asList(players.split("\\s*,\\s*")));
-        String teamjson = new Gson().toJson(teamsList);
-        String playerjson = new Gson().toJson(playersList);
-        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("teams", teamjson).apply();
-        editor.putString("players", playerjson).apply();
-        Toast.makeText(getApplicationContext(), "done", Toast.LENGTH_SHORT).show();
-    }
-
-    public void teams(View view){
-        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
-        String teamsjson = sharedPreferences.getString("teams", null);
-        ArrayList<String> teamsList = new Gson().fromJson(teamsjson, ArrayList.class);
-        for (String team : teamsList) {
-            Log.d("teams", team);
-        }
-    }
-
-    public void players(View view){
-        SharedPreferences sharedPreferences = getSharedPreferences("1", MODE_PRIVATE);
-        String playersjson = sharedPreferences.getString("players", null);
-        ArrayList<String> playersList = new Gson().fromJson(playersjson, ArrayList.class);
-        for (String player : playersList) {
-            Log.d("players", player);
-        }
-    }
-
-    public void getScheduledGames(Integer year, Integer month, Integer day) {
-        String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
-        String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
-        ScheduleParser scheduleParser = new ScheduleParser(url);
-        scheduleParser.getGames();
-    }
-
-    public void getGameStats(String id) {
-        String url = "http://api.sportradar.us/nba-t3/games/" + id + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
-        GameParser gameParser = new GameParser(url);
-        gameParser.getGame();
+    public void onEvent(Game game){
+        EventBus.getDefault().postRemote(game, this);
     }
 }

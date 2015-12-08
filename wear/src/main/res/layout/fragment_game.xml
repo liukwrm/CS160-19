@@ -1,0 +1,63 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent" tools:context="group19.cs160.scoreradar.GameFragment">
+
+    <ImageView android:id="@+id/background" android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:src="@drawable/watch_basketball_bg_small"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true" />
+
+    <ImageView
+        android:layout_width="72dp"
+        android:layout_height="52dp"
+        android:id="@+id/team1logo"
+        android:src="@drawable/los_angeles_lakers"
+        android:layout_gravity="left|center_vertical"
+        android:layout_above="@+id/score1"
+        android:layout_alignStart="@+id/score1" />
+
+    <ImageView
+        android:layout_width="74dp"
+        android:layout_height="66dp"
+        android:id="@+id/team2logo"
+        android:src="@drawable/los_angeles_clippers"
+        android:layout_gravity="right|center_vertical"
+        android:layout_above="@+id/score2"
+        android:layout_alignStart="@+id/score2" />
+
+    <TextView
+        android:id="@+id/score2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score2"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:layout_gravity="bottom|left"
+        android:layout_alignBaseline="@+id/score1"
+        android:layout_alignBottom="@+id/score1"
+        android:layout_toEndOf="@+id/time" />
+
+    <TextView android:id="@+id/score1" android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Score1"
+        android:textSize="20dp"
+        android:typeface="monospace"
+        android:layout_gravity="right|bottom"
+        android:layout_above="@+id/time"
+        android:layout_toStartOf="@+id/time"
+        android:layout_marginBottom="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TIME"
+        android:id="@+id/time"
+        android:textSize="18dp"
+        android:textColor="@color/black"
+        android:layout_gravity="center_horizontal|top"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="28dp" />
+
+</RelativeLayout>

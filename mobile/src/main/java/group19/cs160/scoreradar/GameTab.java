@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import pl.tajchert.buswear.EventBus;
 
@@ -22,6 +23,8 @@ public class GameTab extends Fragment {
     private RecyclerView.Adapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
     private ArrayList<Game> games;
+    private HashSet<Game> gamesSet;
+    private HashSet<String> myGames;
 
     public GameTab() {
     }
@@ -30,6 +33,28 @@ public class GameTab extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         games = getActivity().getIntent().getExtras().getParcelableArrayList("games");
+        ArrayList<String> temp = getArguments().getStringArrayList("myGames");
+        myGames = new HashSet<>();
+        if (temp != null) {
+            for (String i : temp) {
+                myGames.add(i);
+            }
+        }
+
+        gamesSet = new HashSet<>();
+        for (Game g : games) {
+            gamesSet.add(g);
+        }
+        EventBus.getDefault().register(this);
+    }
+
+    public void onEventMainThread(Game game) {
+        gamesSet.add(game);
+        games.clear();
+        for (Game g : gamesSet) {
+            games.add(g);
+        }
+        mRecyclerView.swapAdapter(new GameAdapter(games, myGames, mRecyclerView), false);
     }
 
     @Override
@@ -54,13 +79,8 @@ public class GameTab extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameAdapter(games);
+        mAdapter = new GameAdapter(games, myGames, mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
-
-        for(Game game : games) {
-            System.out.println("Game: " + game);
-            EventBus.getDefault().postRemote(game, this.getActivity().getBaseContext());
-        }
     }
 
 }
