@@ -179,6 +179,8 @@ public class MainActivity extends AppCompatActivity {
                         listOfGames.add(game);
                     } else {
                         String time = jsonObject.getString("scheduled");
+                        String clock = jsonObject.getString("clock");
+                        int quarter = jsonObject.getInt("quarter");
                         String id = jsonObject.getString("id");
                         JSONObject jsonHome = jsonObject.getJSONObject("home");
                         JSONObject jsonAway = jsonObject.getJSONObject("away");
@@ -196,6 +198,8 @@ public class MainActivity extends AppCompatActivity {
                             homeQuarters.set(i, homeScoring.getJSONObject(i).getInt("points"));
                             awayQuarters.set(i, awayScoring.getJSONObject(i).getInt("points"));
                         }
+                        String homeId = jsonHome.getString("id");
+                        String awayId = jsonAway.getString("id");
                         int homeRebounds = homeStats.getInt("rebounds");
                         int homeSteals = homeStats.getInt("steals");
                         int homeBlocks = homeStats.getInt("blocks");
@@ -204,7 +208,7 @@ public class MainActivity extends AppCompatActivity {
                         int awaySteals = awayStats.getInt("steals");
                         int awayBlocks = awayStats.getInt("blocks");
                         int awayTurnovers = awayStats.getInt("turnovers");
-                        g = new Game(id, home, away, time, homeScore, awayScore, status);
+                        g = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status, clock, quarter);
                         listOfGames.add(g);
                     }
                 } catch (JSONException e){
