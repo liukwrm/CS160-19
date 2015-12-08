@@ -1,63 +1,89 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
-    android:layout_height="match_parent" tools:context="group19.cs160.scoreradar.GameFragment">
+    android:layout_height="match_parent" tools:context="group19.cs160.scoreradar.GameFragment"
+    android:orientation="horizontal"
+    android:background="@drawable/watch_basketball_bg_small">
 
-    <ImageView android:id="@+id/background" android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:src="@drawable/watch_basketball_bg_small"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true" />
 
-    <ImageView
-        android:layout_width="72dp"
-        android:layout_height="52dp"
-        android:id="@+id/team1logo"
-        android:src="@drawable/los_angeles_lakers"
-        android:layout_gravity="left|center_vertical"
-        android:layout_above="@+id/score1"
-        android:layout_alignStart="@+id/score1" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
 
-    <ImageView
-        android:layout_width="74dp"
-        android:layout_height="66dp"
-        android:id="@+id/team2logo"
-        android:src="@drawable/los_angeles_clippers"
-        android:layout_gravity="right|center_vertical"
-        android:layout_above="@+id/score2"
-        android:layout_alignStart="@+id/score2" />
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="0dp"
+            android:id="@+id/team1logo"
+            android:src="@drawable/los_angeles_lakers"
+            android:layout_gravity="center|left"
+            android:layout_alignParentTop="true"
+            android:layout_alignStart="@+id/score1"
+            android:layout_weight="2"
+            android:scaleType="fitEnd"
+            android:layout_marginTop="40dp" />
 
-    <TextView
-        android:id="@+id/score2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Score2"
-        android:textSize="20dp"
-        android:typeface="monospace"
-        android:layout_gravity="bottom|left"
-        android:layout_alignBaseline="@+id/score1"
-        android:layout_alignBottom="@+id/score1"
-        android:layout_toEndOf="@+id/time" />
+        <TextView android:id="@+id/score1" android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:text="Score1"
+            android:textSize="20dp"
+            android:typeface="monospace"
+            android:layout_gravity="right|bottom"
+            android:layout_marginLeft="20dp"
+            android:layout_above="@+id/time"
+            android:layout_alignParentStart="true"
+            android:layout_weight="2" />
+    </LinearLayout>
 
-    <TextView android:id="@+id/score1" android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Score1"
-        android:textSize="20dp"
-        android:typeface="monospace"
-        android:layout_gravity="right|bottom"
-        android:layout_above="@+id/time"
-        android:layout_toStartOf="@+id/time"
-        android:layout_marginBottom="20dp" />
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="bottom">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="TIME"
-        android:id="@+id/time"
-        android:textSize="18dp"
-        android:textColor="@color/black"
-        android:layout_gravity="center_horizontal|top"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="28dp" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="TIME"
+            android:id="@+id/time"
+            android:textSize="18dp"
+            android:textColor="@color/black"
+            android:layout_gravity="center_horizontal|top"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="28dp" />
+    </LinearLayout>
 
-</RelativeLayout>
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="2">
+
+        <ImageView
+            android:layout_width="75dp"
+            android:layout_height="0dp"
+            android:id="@+id/team2logo"
+            android:src="@drawable/los_angeles_clippers"
+            android:layout_gravity="center|left"
+            android:layout_alignTop="@+id/team1logo"
+            android:layout_toEndOf="@+id/time"
+            android:layout_weight="2"
+            android:layout_marginTop="40dp"
+            android:scaleType="fitEnd" />
+
+        <TextView
+            android:id="@+id/score2"
+            android:layout_width="85dp"
+            android:layout_height="0dp"
+            android:text="score2"
+            android:textSize="20dp"
+            android:typeface="monospace"
+            android:layout_above="@+id/time"
+            android:layout_alignParentStart="true"
+            android:layout_weight="2" />
+
+    </LinearLayout>
+
+</LinearLayout>

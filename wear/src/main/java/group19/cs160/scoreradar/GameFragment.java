@@ -133,8 +133,8 @@ public class GameFragment extends Fragment {
         ImageView homelogo = (ImageView) myView.findViewById(R.id.team1logo);
         ImageView awaylogo = (ImageView) myView.findViewById(R.id.team2logo);
 
-        homeTeam.setText(home);
-        awayTeam.setText(away);
+        homeTeam.setText(""+homeScore);
+        awayTeam.setText(""+awayScore);
         time.setText(this.time);
         homelogo.setImageResource(GameInformation.getLogo(home));
         awaylogo.setImageResource(GameInformation.getLogo(away));

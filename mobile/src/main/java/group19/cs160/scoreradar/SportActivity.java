@@ -95,6 +95,8 @@ public class SportActivity extends AppCompatActivity implements
         tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        sendData();
+
     }
 
     @Override
@@ -113,7 +115,7 @@ public class SportActivity extends AppCompatActivity implements
         final DataMap map = putRequest.getDataMap();
 
 
-        new SendToDataLayerThread("/message_path", message).start();
+        // new SendToDataLayerThread("/message_path", message).start();
 
 //        PendingIntent resultPendingIntent = PendingIntent.getActivity(
 //                this,
@@ -157,6 +159,13 @@ public class SportActivity extends AppCompatActivity implements
                 return 0;
             }
         }
+    }
+
+    public void sendData() {
+        Gson gson = new Gson();
+        Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
+        String json = gson.toJson(listOfGames, listOfTemp);
+        EventBus.getDefault().post("WearActivity" + json, this);
     }
 
 
@@ -207,6 +216,8 @@ public class SportActivity extends AppCompatActivity implements
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
         }
+
+
     }
 
     class SendToDataLayerThread extends Thread {
@@ -223,7 +234,7 @@ public class SportActivity extends AppCompatActivity implements
             Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
             String json2 = gson.toJson(listOfGames, listOfTemp);
             ArrayList<Game> temp = gson.fromJson(json2, listOfTemp);
-            Log.v("temp json", temp.get(0).getHome());
+            Log.v("temp json", temp.get(0).toString());
         }
 
         public void run() {
@@ -239,5 +250,7 @@ public class SportActivity extends AppCompatActivity implements
                 }
             }
         }
+
+
     }
 }

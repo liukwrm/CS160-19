@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
-    static final String KEY = "uunmhwurg5munkwu3s59q9r8";
+    static final String KEY = "6rk3jrh7tqycmx8ajtdjf7gv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

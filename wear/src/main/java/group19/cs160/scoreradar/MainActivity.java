@@ -75,12 +75,9 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
         IntentFilter messageFilter = new IntentFilter(Intent.ACTION_SEND);
         MessageReceiver messageReceiver = new MessageReceiver();
         LocalBroadcastManager.getInstance(this).registerReceiver(messageReceiver, messageFilter);
+
         EventBus.getDefault().register(this);
 
-        mGamesView = (GridViewPager) findViewById(R.id.pager);
-
-        GameAdapter adapter = new GameAdapter(this, getFragmentManager());
-        mGamesView.setAdapter(adapter);
         // pull current games, get list. Iterate through and add each game into mGamesLayout
 
     }
@@ -95,13 +92,8 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
         public void onReceive(Context context, Intent intent) {
             String message = intent.getStringExtra("message");
             // Display message
-            Log.d("message received", message);
-            Gson gson = new Gson();
-            Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
-            String json2 = gson.toJson(listOfGames, listOfTemp);
-            ArrayList<Game> temp = gson.fromJson(json2, listOfTemp);
-            Log.d("message translated", temp.toString());
-            listOfGames = temp;
+            Log.d("message received", message+"  nada");
+
         }
     }
 
@@ -123,9 +115,23 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
         }
     }
 
-    public void onEventMainThread(Game game) {
-        System.out.println("In OnEvent");
-        listOfGames.add(game);
+    public void onEventMainThread(String temp) {
+        if (temp.startsWith("WearActivity")) {
+            Gson gson = new Gson();
+            Type listOfTemp = new TypeToken<ArrayList<Game>>() {
+            }.getType();
+            ArrayList<Game> tempGames = gson.fromJson(temp.substring(12), listOfTemp);
+            Log.v("temp json", tempGames.get(0).toString());
+            if (!tempGames.equals(listOfGames)) {
+                System.out.println("In listOfGames = tempList");
+
+                listOfGames = tempGames;
+                mGamesView = (GridViewPager) findViewById(R.id.pager);
+                GameAdapter adapter = new GameAdapter(this, getFragmentManager(), tempGames);
+                mGamesView.setAdapter(adapter);
+            }
+
+        }
     }
 
     @Override
