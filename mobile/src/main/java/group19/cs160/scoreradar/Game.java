@@ -25,6 +25,8 @@ public class Game implements Parcelable {
     private int awayBlocks;
     private int awayTurnovers;
     private String status;
+    private String clock;
+    private int quarter;
 
     public Game() {
     }
@@ -49,7 +51,7 @@ public class Game implements Parcelable {
     }
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
-                String homeId, String awayId, String status) {
+                String homeId, String awayId, String status, String clock, int quarter) {
         this.id = id;
         this.home = home;
         this.away = away;
@@ -59,6 +61,8 @@ public class Game implements Parcelable {
         this.homeId = homeId;
         this.awayId = awayId;
         this.status = status;
+        this.clock = clock;
+        this.quarter = quarter;
     }
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
@@ -171,6 +175,8 @@ public class Game implements Parcelable {
         awayBlocks = in.readInt();
         awayTurnovers = in.readInt();
         status = in.readString();
+        clock = in.readString();
+        quarter = in.readInt();
     }
 
     @Override
@@ -197,6 +203,8 @@ public class Game implements Parcelable {
         dest.writeInt(awayBlocks);
         dest.writeInt(awayTurnovers);
         dest.writeString(status);
+        dest.writeString(clock);
+        dest.writeInt(quarter);
     }
 
     @SuppressWarnings("unused")

@@ -154,6 +154,8 @@ public class ListenerService extends Service {
                             JSONObject jsonObject = new JSONObject(new String(responseBody));
                             String status = jsonObject.getString("status");
                             String time = jsonObject.getString("scheduled");
+                            String clock = jsonObject.getString("clock");
+                            int quarter = jsonObject.getInt("quarter");
                             String id = jsonObject.getString("id");
                             JSONObject jsonHome = jsonObject.getJSONObject("home");
                             JSONObject jsonAway = jsonObject.getJSONObject("away");
@@ -163,7 +165,7 @@ public class ListenerService extends Service {
                             String awayId = jsonAway.getString("id");
                             int homeScore = jsonHome.getInt("points");
                             int awayScore = jsonAway.getInt("points");
-                            game = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status);
+                            game = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status, clock, quarter);
                         } catch (JSONException e){
                         }
                         Log.d("stats", game.getHome() + " vs " + game.getAway() + " is currently " + game.getStatus() +
