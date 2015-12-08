@@ -196,6 +196,8 @@ public class MainActivity extends AppCompatActivity {
                             homeQuarters.set(i, homeScoring.getJSONObject(i).getInt("points"));
                             awayQuarters.set(i, awayScoring.getJSONObject(i).getInt("points"));
                         }
+                        String homeId = jsonHome.getString("id");
+                        String awayId = jsonAway.getString("id");
                         int homeRebounds = homeStats.getInt("rebounds");
                         int homeSteals = homeStats.getInt("steals");
                         int homeBlocks = homeStats.getInt("blocks");
@@ -204,7 +206,7 @@ public class MainActivity extends AppCompatActivity {
                         int awaySteals = awayStats.getInt("steals");
                         int awayBlocks = awayStats.getInt("blocks");
                         int awayTurnovers = awayStats.getInt("turnovers");
-                        g = new Game(id, home, away, time, homeScore, awayScore, status);
+                        g = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status);
                         listOfGames.add(g);
                     }
                 } catch (JSONException e){

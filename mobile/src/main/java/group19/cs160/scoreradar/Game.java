@@ -14,6 +14,16 @@ public class Game implements Parcelable {
     private String time;
     private int homeScore;
     private int awayScore;
+    private String homeId;
+    private String awayId;
+    private int homeRebounds;
+    private int homeSteals;
+    private int homeBlocks;
+    private int homeTurnovers;
+    private int awayRebounds;
+    private int awaySteals;
+    private int awayBlocks;
+    private int awayTurnovers;
     private String status;
 
     public Game() {
@@ -35,6 +45,42 @@ public class Game implements Parcelable {
         this.time = time;
         this.homeScore = homeScore;
         this.awayScore = awayScore;
+        this.status = status;
+    }
+
+    public Game(String id, String home, String away, String time, int homeScore, int awayScore,
+                String homeId, String awayId, String status) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        this.time = time;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.homeId = homeId;
+        this.awayId = awayId;
+        this.status = status;
+    }
+
+    public Game(String id, String home, String away, String time, int homeScore, int awayScore,
+                String homeId, String awayId, int homeRebounds, int homeSteals, int homeBlocks,
+                int homeTurnovers, int awayRebounds, int awaySteals, int awayBlocks, int awayTurnovers,
+                String status) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        this.time = time;
+        this.homeScore = homeScore;
+        this.awayScore = awayScore;
+        this.homeId = homeId;
+        this.awayId = awayId;
+        this.homeRebounds = homeRebounds;
+        this.homeSteals = homeSteals;
+        this.homeBlocks = homeBlocks;
+        this.homeTurnovers = homeTurnovers;
+        this.awayRebounds = awayRebounds;
+        this.awaySteals = awaySteals;
+        this.awayBlocks = awayBlocks;
+        this.awayTurnovers = awayTurnovers;
         this.status = status;
     }
 
@@ -114,6 +160,16 @@ public class Game implements Parcelable {
         time = in.readString();
         homeScore = in.readInt();
         awayScore = in.readInt();
+        homeId = in.readString();
+        awayId = in.readString();
+        homeRebounds = in.readInt();
+        homeSteals = in.readInt();
+        homeBlocks = in.readInt();
+        homeTurnovers = in.readInt();
+        awayRebounds = in.readInt();
+        awaySteals = in.readInt();
+        awayBlocks = in.readInt();
+        awayTurnovers = in.readInt();
         status = in.readString();
     }
 
@@ -130,6 +186,16 @@ public class Game implements Parcelable {
         dest.writeString(time);
         dest.writeInt(homeScore);
         dest.writeInt(awayScore);
+        dest.writeString(homeId);
+        dest.writeString(awayId);
+        dest.writeInt(homeRebounds);
+        dest.writeInt(homeSteals);
+        dest.writeInt(homeBlocks);
+        dest.writeInt(homeTurnovers);
+        dest.writeInt(awayRebounds);
+        dest.writeInt(awaySteals);
+        dest.writeInt(awayBlocks);
+        dest.writeInt(awayTurnovers);
         dest.writeString(status);
     }
 

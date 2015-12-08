@@ -159,9 +159,11 @@ public class ListenerService extends Service {
                             JSONObject jsonAway = jsonObject.getJSONObject("away");
                             String home = jsonHome.getString("market") + " " + jsonHome.getString("name");
                             String away = jsonAway.getString("market") + " " + jsonAway.getString("name");
+                            String homeId = jsonHome.getString("id");
+                            String awayId = jsonAway.getString("id");
                             int homeScore = jsonHome.getInt("points");
                             int awayScore = jsonAway.getInt("points");
-                            game = new Game(id, home, away, time, homeScore, awayScore, status);
+                            game = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status);
                         } catch (JSONException e){
                         }
                         Log.d("stats", game.getHome() + " vs " + game.getAway() + " is currently " + game.getStatus() +
