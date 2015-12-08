@@ -1,5 +1,6 @@
 package group19.cs160.scoreradar;
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -29,6 +30,7 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     private ArrayList<Game> mDataset;
     private static HashSet<String> myGames;
     private static RecyclerView mRecyclerView;
+    private boolean hasSubscribe;
 
     // Provide a reference to the views for each data item
     // Complex data items may need more than one view per item, and
@@ -54,28 +56,36 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
             subscribe.setBackground(null);
             subscribe.setOnClickListener(this);
             this.mListener = mListener;
+            v.setOnClickListener(this);
         }
 
         public void onClick(View v) {
             Log.d("ONCLICK", v.toString());
             if (v instanceof ImageButton) {
                 mListener.click((ImageButton) v, this);
+                return;
             }
+            mListener.wholeClick(this);
 
         }
 
         public static interface IMyViewHolderClicks {
             public void click(ImageButton caller, ViewHolder v);
+            public void wholeClick(ViewHolder v);
         }
     }
 
     // Provide a suitable constructor (depends on the kind of dataset)
-    public GameAdapter(ArrayList<Game> myDataset, HashSet<String> myGames, RecyclerView mrv) {
+    public GameAdapter(ArrayList<Game> myDataset, HashSet<String> myGames, RecyclerView mrv, boolean hasSubscribe) {
         mDataset = myDataset;
         this.myGames = myGames;
         mRecyclerView = mrv;
+        this.hasSubscribe = hasSubscribe;
         EventBus.getDefault().register(this);
+
+
     }
+
 
     public void onEvent(Game game){
         return;
@@ -85,14 +95,30 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
     @Override
     public GameAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
                                                      int viewType) {
-        View v = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.game_item, parent, false);
+        View v;
+        if (hasSubscribe) {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.game_item, parent, false);
+        } else {
+            v = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.game_item_home, parent, false);
+        }
         ViewHolder vh = new ViewHolder(v, new GameAdapter.ViewHolder.IMyViewHolderClicks() {
             public void click(ImageButton v, ViewHolder vh) {
                 addTeam(v, vh);
             }
+            public void wholeClick(ViewHolder vh) {
+                openGame(vh);
+            }
         });
         return vh;
+    }
+
+    private void openGame(GameAdapter.ViewHolder vh) {
+        int itemPosition = vh.getAdapterPosition();
+        Intent intent = new Intent(mRecyclerView.getContext(), SpecificGame.class);
+        intent.putExtra("game", mDataset.get(itemPosition));
+        mRecyclerView.getContext().startActivity(intent);
     }
 
     private void addTeam(View v, ViewHolder vh) {
@@ -174,10 +200,12 @@ public class GameAdapter extends RecyclerView.Adapter<GameAdapter.ViewHolder> {
         holder.team1.setImageResource(GameInformation.getLogo(game.getHome()));
         holder.team2.setImageResource(GameInformation.getLogo(game.getAway()));
         //need to change for personal things
-        if (myGames.contains(game.getId())) {
-            holder.subscribe.setImageResource(R.drawable.button_unsubscribe);
-        } else {
-            holder.subscribe.setImageResource(R.drawable.button_subscribe);
+        if (hasSubscribe) {
+            if (myGames.contains(game.getId())) {
+                holder.subscribe.setImageResource(R.drawable.button_unsubscribe);
+            } else {
+                holder.subscribe.setImageResource(R.drawable.button_subscribe);
+            }
         }
     }
 

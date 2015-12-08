@@ -35,7 +35,7 @@ public class GameTab extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        games = getActivity().getIntent().getExtras().getParcelableArrayList("games");
+        games = getArguments().getParcelableArrayList("games");
         ArrayList<String> temp = getArguments().getStringArrayList("myGames");
         myGames = new HashSet<>();
         if (temp != null) {
@@ -57,7 +57,7 @@ public class GameTab extends Fragment {
         for (Game g : gamesSet) {
             games.add(g);
         }
-        mRecyclerView.swapAdapter(new GameAdapter(games, myGames, mRecyclerView), false);
+        mRecyclerView.swapAdapter(new GameAdapter(games, myGames, mRecyclerView, true), false);
     }
 
     @Override
@@ -82,7 +82,7 @@ public class GameTab extends Fragment {
         mRecyclerView.setLayoutManager(mLayoutManager);
 
         // specify an adapter (see also next example)
-        mAdapter = new GameAdapter(games, myGames, mRecyclerView);
+        mAdapter = new GameAdapter(games, myGames, mRecyclerView, true);
         mRecyclerView.setAdapter(mAdapter);
     }
 

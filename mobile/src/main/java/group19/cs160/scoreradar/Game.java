@@ -3,30 +3,34 @@ package group19.cs160.scoreradar;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.ArrayList;
+
 /**
  * Created by Michael on 11/19/2015.
  */
 public class Game implements Parcelable {
 
-    private String id;
-    private String home;
-    private String away;
-    private String time;
-    private int homeScore;
-    private int awayScore;
-    private String homeId;
-    private String awayId;
-    private int homeRebounds;
-    private int homeSteals;
-    private int homeBlocks;
-    private int homeTurnovers;
-    private int awayRebounds;
-    private int awaySteals;
-    private int awayBlocks;
-    private int awayTurnovers;
-    private String status;
-    private String clock;
-    private int quarter;
+    String id;
+    String home;
+    String away;
+    String time;
+    int homeScore;
+    int awayScore;
+    String homeId;
+    String awayId;
+    int homeRebounds;
+    int homeSteals;
+    int homeBlocks;
+    int homeTurnovers;
+    int awayRebounds;
+    int awaySteals;
+    int awayBlocks;
+    int awayTurnovers;
+    String status;
+    String clock;
+    int quarter;
+    ArrayList<Integer> homeQuaters;
+    ArrayList<Integer> awayQuaters;
 
     public Game() {
     }
@@ -68,7 +72,7 @@ public class Game implements Parcelable {
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
                 String homeId, String awayId, int homeRebounds, int homeSteals, int homeBlocks,
                 int homeTurnovers, int awayRebounds, int awaySteals, int awayBlocks, int awayTurnovers,
-                String status, String clock, int quarter) {
+                String status, String clock, int quarter, ArrayList<Integer> homeQuaters, ArrayList<Integer> awayQuaters) {
         this.id = id;
         this.home = home;
         this.away = away;
@@ -88,6 +92,8 @@ public class Game implements Parcelable {
         this.status = status;
         this.clock = clock;
         this.quarter = quarter;
+        this.homeQuaters = homeQuaters;
+        this.awayQuaters = awayQuaters;
     }
 
     public String getId() {
@@ -179,6 +185,16 @@ public class Game implements Parcelable {
         status = in.readString();
         clock = in.readString();
         quarter = in.readInt();
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(in.readInt());
+        homeQuaters.add(in.readInt());
+        homeQuaters.add(in.readInt());
+        homeQuaters.add(in.readInt());
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(in.readInt());
+        awayQuaters.add(in.readInt());
+        awayQuaters.add(in.readInt());
+        awayQuaters.add(in.readInt());
     }
 
     @Override
@@ -207,6 +223,12 @@ public class Game implements Parcelable {
         dest.writeString(status);
         dest.writeString(clock);
         dest.writeInt(quarter);
+        for (Integer i : homeQuaters) {
+            dest.writeInt(i);
+        }
+        for (Integer i : awayQuaters) {
+            dest.writeInt(i);
+        }
     }
 
     @SuppressWarnings("unused")

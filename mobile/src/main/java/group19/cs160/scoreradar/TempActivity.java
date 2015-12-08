@@ -128,7 +128,7 @@ public class TempActivity extends AppCompatActivity {
     {
         super.onNewIntent(intent);
         listOfGames = intent.getParcelableArrayListExtra("games");
-        Intent newIntent = new Intent(this, SportActivity.class);
+        Intent newIntent = new Intent(this, HomeActivity.class);
         newIntent.putParcelableArrayListExtra("games", listOfGames);
         newIntent.putParcelableArrayListExtra("teams", listOfTeams);
 

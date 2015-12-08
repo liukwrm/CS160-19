@@ -208,7 +208,10 @@ public class MainActivity extends AppCompatActivity {
                         int awaySteals = awayStats.getInt("steals");
                         int awayBlocks = awayStats.getInt("blocks");
                         int awayTurnovers = awayStats.getInt("turnovers");
-                        g = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status, clock, quarter);
+                        g = new Game(id, home,  away,  time,  homeScore,  awayScore,
+                         homeId,  awayId,  homeRebounds, homeSteals,  homeBlocks,
+                        homeTurnovers, awayRebounds, awaySteals, awayBlocks, awayTurnovers,
+                        status, clock, quarter, homeQuarters, awayQuarters);
                         listOfGames.add(g);
                     }
                 } catch (JSONException e){
