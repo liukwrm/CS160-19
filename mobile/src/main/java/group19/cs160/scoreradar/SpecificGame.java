@@ -45,7 +45,7 @@ public class SpecificGame extends AppCompatActivity {
         TextView rebounds1 = (TextView) findViewById(R.id.rebounds1);
         rebounds1.setText("" + game.homeRebounds);
         TextView assists1 = (TextView) findViewById(R.id.assists1);
-        assists1.setText("" + game.getHome());
+        assists1.setText("" + game.getHomeAssists());
         TextView blocks1 = (TextView) findViewById(R.id.blocks1);
         blocks1.setText("" + game.homeBlocks);
         TextView steals1 = (TextView) findViewById(R.id.steals1);
@@ -75,7 +75,7 @@ public class SpecificGame extends AppCompatActivity {
         TextView rebounds2 = (TextView) findViewById(R.id.rebounds2);
         rebounds2.setText("" + game.awayRebounds);
         TextView assists2 = (TextView) findViewById(R.id.assists2);
-        assists2.setText("" + game.getAway());
+        assists2.setText("" + game.getAwayAssists());
 
 
 
@@ -87,7 +87,6 @@ public class SpecificGame extends AppCompatActivity {
         steals2.setText("" + game.awaySteals);
         TextView turnovers2 = (TextView) findViewById(R.id.turnovers2);
         turnovers2.setText("" + game.awayTurnovers);
-
 
     }
 }

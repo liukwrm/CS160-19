@@ -12,6 +12,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -19,9 +21,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
@@ -37,6 +41,9 @@ public class SportActivity extends AppCompatActivity {
 
     ArrayList<String> followingGames;
     ArrayList<String> followingTeams;
+
+    HashMap<String, Integer> gamesMap;
+    int countGames = 0;
 //    boolean getTeamsListDone = false;
 //    boolean getGamesListDone = false;
 
@@ -62,6 +69,11 @@ public class SportActivity extends AppCompatActivity {
 //        Game[] tempGames = listOfGames.toArray(new Game[listOfGames.size()]);
         Arrays.sort(tempTeams, new TeamComparator());
         listOfTeams = new ArrayList<>(Arrays.asList(tempTeams));
+
+        gamesMap = new HashMap<String, Integer>();
+        for (int i = 0; i < listOfGames.size(); i++) {
+            gamesMap.put(listOfGames.get(i).getId(), i);
+        }
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
@@ -125,6 +137,21 @@ public class SportActivity extends AppCompatActivity {
         @Override
         public CharSequence getPageTitle(int position) {
             return mFragmentTitleList.get(position);
+        }
+    }
+
+    public void onEvent(Integer i) {
+        countGames = i;
+    }
+
+    public void onEvent(Game game) {
+        listOfGames.set(gamesMap.get(game.getId()), game);
+        countGames -= 1;
+        if (countGames == 0) {
+            Gson gson = new Gson();
+            Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
+            String json = gson.toJson(listOfGames, listOfObject);
+            EventBus.getDefault().post("WearGames" + json, this);
         }
     }
 }

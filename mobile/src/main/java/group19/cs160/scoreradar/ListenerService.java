@@ -16,7 +16,9 @@ import org.json.JSONObject;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.TimeZone;
@@ -109,8 +111,7 @@ public class ListenerService extends Service {
                         }
                     });
                 }
-
-
+                checkScores();
 
                 // Start the timer again
                 createAndStartTimer();
@@ -133,6 +134,7 @@ public class ListenerService extends Service {
 
 
     public void checkScores() {
+        EventBus.getDefault().postLocal(Collections.frequency(new ArrayList<Boolean>(games.values()), true));
         for (final String id : games.keySet()) {
             if (games.get(id)) {
                 try {
@@ -161,11 +163,34 @@ public class ListenerService extends Service {
                             JSONObject jsonAway = jsonObject.getJSONObject("away");
                             String home = jsonHome.getString("market") + " " + jsonHome.getString("name");
                             String away = jsonAway.getString("market") + " " + jsonAway.getString("name");
-                            String homeId = jsonHome.getString("id");
-                            String awayId = jsonAway.getString("id");
                             int homeScore = jsonHome.getInt("points");
                             int awayScore = jsonAway.getInt("points");
-                            game = new Game(id, home, away, time, homeScore, awayScore, homeId, awayId, status, clock, quarter);
+                            JSONArray homeScoring = jsonHome.getJSONArray("scoring");
+                            JSONArray awayScoring = jsonAway.getJSONArray("scoring");
+                            JSONObject homeStats = jsonHome.getJSONObject("statistics");
+                            JSONObject awayStats = jsonAway.getJSONObject("statistics");
+                            ArrayList<Integer> homeQuarters = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0));
+                            ArrayList<Integer> awayQuarters = new ArrayList<Integer>(Arrays.asList(0, 0, 0, 0));
+                            for (int i = 0; i < homeScoring.length(); i++) {
+                                homeQuarters.set(i, homeScoring.getJSONObject(i).getInt("points"));
+                                awayQuarters.set(i, awayScoring.getJSONObject(i).getInt("points"));
+                            }
+                            String homeId = jsonHome.getString("id");
+                            String awayId = jsonAway.getString("id");
+                            int homeRebounds = homeStats.getInt("rebounds");
+                            int homeSteals = homeStats.getInt("steals");
+                            int homeBlocks = homeStats.getInt("blocks");
+                            int homeTurnovers = homeStats.getInt("turnovers");
+                            int homeAssists = homeStats.getInt("assists");
+                            int awayRebounds = awayStats.getInt("rebounds");
+                            int awaySteals = awayStats.getInt("steals");
+                            int awayBlocks = awayStats.getInt("blocks");
+                            int awayTurnovers = awayStats.getInt("turnovers");
+                            int awayAssists = awayStats.getInt("assists");
+                            game = new Game(id, home,  away,  time,  homeScore,  awayScore,
+                                    homeId,  awayId,  homeRebounds, homeSteals,  homeBlocks,
+                                    homeTurnovers, homeAssists, awayRebounds, awaySteals, awayBlocks, awayTurnovers, awayAssists,
+                                    status, clock, quarter, homeQuarters, awayQuarters);
                         } catch (JSONException e){
                         }
                         Log.d("stats", game.getHome() + " vs " + game.getAway() + " is currently " + game.getStatus() +

@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
-    static final String KEY = "uunmhwurg5munkwu3s59q9r8";
+    static final String KEY = "6rk3jrh7tqycmx8ajtdjf7gv";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -204,14 +204,16 @@ public class MainActivity extends AppCompatActivity {
                         int homeSteals = homeStats.getInt("steals");
                         int homeBlocks = homeStats.getInt("blocks");
                         int homeTurnovers = homeStats.getInt("turnovers");
+                        int homeAssists = homeStats.getInt("assists");
                         int awayRebounds = awayStats.getInt("rebounds");
                         int awaySteals = awayStats.getInt("steals");
                         int awayBlocks = awayStats.getInt("blocks");
                         int awayTurnovers = awayStats.getInt("turnovers");
+                        int awayAssists = awayStats.getInt("assists");
                         g = new Game(id, home,  away,  time,  homeScore,  awayScore,
-                         homeId,  awayId,  homeRebounds, homeSteals,  homeBlocks,
-                        homeTurnovers, awayRebounds, awaySteals, awayBlocks, awayTurnovers,
-                        status, clock, quarter, homeQuarters, awayQuarters);
+                                homeId,  awayId,  homeRebounds, homeSteals,  homeBlocks,
+                                homeTurnovers, homeAssists, awayRebounds, awaySteals, awayBlocks, awayTurnovers, awayAssists,
+                                status, clock, quarter, homeQuarters, awayQuarters);
                         listOfGames.add(g);
                     }
                 } catch (JSONException e){

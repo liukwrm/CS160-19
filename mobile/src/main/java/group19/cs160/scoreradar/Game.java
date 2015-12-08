@@ -22,10 +22,12 @@ public class Game implements Parcelable {
     int homeSteals;
     int homeBlocks;
     int homeTurnovers;
+    int homeAssists;
     int awayRebounds;
     int awaySteals;
     int awayBlocks;
     int awayTurnovers;
+    int awayAssists;
     String status;
     String clock;
     int quarter;
@@ -71,8 +73,9 @@ public class Game implements Parcelable {
 
     public Game(String id, String home, String away, String time, int homeScore, int awayScore,
                 String homeId, String awayId, int homeRebounds, int homeSteals, int homeBlocks,
-                int homeTurnovers, int awayRebounds, int awaySteals, int awayBlocks, int awayTurnovers,
-                String status, String clock, int quarter, ArrayList<Integer> homeQuaters, ArrayList<Integer> awayQuaters) {
+                int homeTurnovers, int homeAssists, int awayRebounds, int awaySteals, int awayBlocks,
+                int awayTurnovers, int awayAssists, String status, String clock, int quarter,
+                ArrayList<Integer> homeQuaters, ArrayList<Integer> awayQuaters) {
         this.id = id;
         this.home = home;
         this.away = away;
@@ -85,10 +88,12 @@ public class Game implements Parcelable {
         this.homeSteals = homeSteals;
         this.homeBlocks = homeBlocks;
         this.homeTurnovers = homeTurnovers;
+        this.homeAssists = homeAssists;
         this.awayRebounds = awayRebounds;
         this.awaySteals = awaySteals;
         this.awayBlocks = awayBlocks;
         this.awayTurnovers = awayTurnovers;
+        this.awayAssists = awayAssists;
         this.status = status;
         this.clock = clock;
         this.quarter = quarter;
@@ -128,12 +133,12 @@ public class Game implements Parcelable {
         this.time = time;
     }
 
-    public String getStatus() {
-        return status;
+    public int getHomeScore() {
+        return homeScore;
     }
 
-    public void setStatus(String status) {
-        this.status = status;
+    public void setHomeScore(int homeScore) {
+        this.homeScore = homeScore;
     }
 
     public int getAwayScore() {
@@ -144,12 +149,140 @@ public class Game implements Parcelable {
         this.awayScore = awayScore;
     }
 
-    public int getHomeScore() {
-        return homeScore;
+    public String getHomeId() {
+        return homeId;
     }
 
-    public void setHomeScore(int homeScore) {
-        this.homeScore = homeScore;
+    public void setHomeId(String homeId) {
+        this.homeId = homeId;
+    }
+
+    public String getAwayId() {
+        return awayId;
+    }
+
+    public void setAwayId(String awayId) {
+        this.awayId = awayId;
+    }
+
+    public int getHomeRebounds() {
+        return homeRebounds;
+    }
+
+    public void setHomeRebounds(int homeRebounds) {
+        this.homeRebounds = homeRebounds;
+    }
+
+    public int getHomeSteals() {
+        return homeSteals;
+    }
+
+    public void setHomeSteals(int homeSteals) {
+        this.homeSteals = homeSteals;
+    }
+
+    public int getHomeBlocks() {
+        return homeBlocks;
+    }
+
+    public void setHomeBlocks(int homeBlocks) {
+        this.homeBlocks = homeBlocks;
+    }
+
+    public int getHomeTurnovers() {
+        return homeTurnovers;
+    }
+
+    public void setHomeTurnovers(int homeTurnovers) {
+        this.homeTurnovers = homeTurnovers;
+    }
+
+    public int getHomeAssists() {
+        return homeAssists;
+    }
+
+    public void setHomeAssists(int homeAssists) {
+        this.homeAssists = homeAssists;
+    }
+
+    public int getAwayRebounds() {
+        return awayRebounds;
+    }
+
+    public void setAwayRebounds(int awayRebounds) {
+        this.awayRebounds = awayRebounds;
+    }
+
+    public int getAwaySteals() {
+        return awaySteals;
+    }
+
+    public void setAwaySteals(int awaySteals) {
+        this.awaySteals = awaySteals;
+    }
+
+    public int getAwayBlocks() {
+        return awayBlocks;
+    }
+
+    public void setAwayBlocks(int awayBlocks) {
+        this.awayBlocks = awayBlocks;
+    }
+
+    public int getAwayTurnovers() {
+        return awayTurnovers;
+    }
+
+    public void setAwayTurnovers(int awayTurnovers) {
+        this.awayTurnovers = awayTurnovers;
+    }
+
+    public int getAwayAssists() {
+        return awayAssists;
+    }
+
+    public void setAwayAssists(int awayAssists) {
+        this.awayAssists = awayAssists;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public String getClock() {
+        return clock;
+    }
+
+    public void setClock(String clock) {
+        this.clock = clock;
+    }
+
+    public int getQuarter() {
+        return quarter;
+    }
+
+    public void setQuarter(int quarter) {
+        this.quarter = quarter;
+    }
+
+    public ArrayList<Integer> getHomeQuaters() {
+        return homeQuaters;
+    }
+
+    public void setHomeQuaters(ArrayList<Integer> homeQuaters) {
+        this.homeQuaters = homeQuaters;
+    }
+
+    public ArrayList<Integer> getAwayQuaters() {
+        return awayQuaters;
+    }
+
+    public void setAwayQuaters(ArrayList<Integer> awayQuaters) {
+        this.awayQuaters = awayQuaters;
     }
 
     @Override
@@ -162,7 +295,7 @@ public class Game implements Parcelable {
         if (getClass() != game.getClass()) {
             return false;
         }
-        return id.equals(((Game)game).getId());
+        return id.equals(((Game) game).getId());
     }
 
     protected Game(Parcel in) {
@@ -178,23 +311,27 @@ public class Game implements Parcelable {
         homeSteals = in.readInt();
         homeBlocks = in.readInt();
         homeTurnovers = in.readInt();
+        homeAssists = in.readInt();
         awayRebounds = in.readInt();
         awaySteals = in.readInt();
         awayBlocks = in.readInt();
         awayTurnovers = in.readInt();
+        awayAssists = in.readInt();
         status = in.readString();
         clock = in.readString();
         quarter = in.readInt();
-        homeQuaters = new ArrayList<>();
-        homeQuaters.add(in.readInt());
-        homeQuaters.add(in.readInt());
-        homeQuaters.add(in.readInt());
-        homeQuaters.add(in.readInt());
-        awayQuaters = new ArrayList<>();
-        awayQuaters.add(in.readInt());
-        awayQuaters.add(in.readInt());
-        awayQuaters.add(in.readInt());
-        awayQuaters.add(in.readInt());
+        if (in.readByte() == 0x01) {
+            homeQuaters = new ArrayList<Integer>();
+            in.readList(homeQuaters, Integer.class.getClassLoader());
+        } else {
+            homeQuaters = null;
+        }
+        if (in.readByte() == 0x01) {
+            awayQuaters = new ArrayList<Integer>();
+            in.readList(awayQuaters, Integer.class.getClassLoader());
+        } else {
+            awayQuaters = null;
+        }
     }
 
     @Override
@@ -216,18 +353,26 @@ public class Game implements Parcelable {
         dest.writeInt(homeSteals);
         dest.writeInt(homeBlocks);
         dest.writeInt(homeTurnovers);
+        dest.writeInt(homeAssists);
         dest.writeInt(awayRebounds);
         dest.writeInt(awaySteals);
         dest.writeInt(awayBlocks);
         dest.writeInt(awayTurnovers);
+        dest.writeInt(awayAssists);
         dest.writeString(status);
         dest.writeString(clock);
         dest.writeInt(quarter);
-        for (Integer i : homeQuaters) {
-            dest.writeInt(i);
+        if (homeQuaters == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(homeQuaters);
         }
-        for (Integer i : awayQuaters) {
-            dest.writeInt(i);
+        if (awayQuaters == null) {
+            dest.writeByte((byte) (0x00));
+        } else {
+            dest.writeByte((byte) (0x01));
+            dest.writeList(awayQuaters);
         }
     }
 
