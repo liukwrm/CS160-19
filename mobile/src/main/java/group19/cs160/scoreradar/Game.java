@@ -46,6 +46,17 @@ public class Game implements Parcelable {
         this.awayScore = 0;
     }
 
+    public Game(String id, String home, String away, String time, String homeId, String awayId) {
+        this.id = id;
+        this.home = home;
+        this.away = away;
+        this.time = time;
+        this.homeId = homeId;
+        this.awayId = awayId;
+        this.homeScore = 0;
+        this.awayScore = 0;
+    }
+
     public Game(String id, String home, String away, String time, int homeScore, int awayScore, String status) {
         this.id = id;
         this.home = home;
