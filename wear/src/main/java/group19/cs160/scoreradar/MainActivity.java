@@ -3,6 +3,7 @@ package group19.cs160.scoreradar;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.app.usage.UsageEvents;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -77,6 +78,8 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
 
         EventBus.getDefault().register(this);
 
+
+
         // pull current games, get list. Iterate through and add each game into mGamesLayout
 
     }
@@ -119,9 +122,41 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
                 GameAdapter adapter = new GameAdapter(this, getFragmentManager(), tempGames);
                 mGamesView.setAdapter(adapter);
             }
+        } if (temp.startsWith("WearUpdate")) {
+            Log.d("in listener-onEvent", "Here in event for notification");
+            temp = temp.substring(10);
+            Gson gson = new Gson();
+            Type listOfTemp = new TypeToken<ArrayList<Game>>() {
+            }.getType();
+            ArrayList<Game> gameList = gson.fromJson(temp, listOfTemp);
 
+
+            int notificationId = 001;
+            // Build intent for notification content
+            Intent viewIntent = new Intent(this, NotificationActivity.class);
+            viewIntent.putParcelableArrayListExtra("gamesList", gameList);
+            PendingIntent viewPendingIntent =
+                    PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+            NotificationCompat.Builder notificationBuilder =
+                    new NotificationCompat.Builder(this)
+                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setContentTitle("New Score Update From ScoreRadar")
+                            .setContentText("Swipe right to see your games!")
+                            .setContentIntent(viewPendingIntent)
+                            .addAction(R.mipmap.ic_launcher,
+                                    "Opening ScoreRadar", viewPendingIntent);
+            //.extend(new NotificationCompat.WearableExtender().setDisplayIntent(viewPendingIntent));
+
+            // Get an instance of the NotificationManager service
+            NotificationManagerCompat notificationManager =
+                    NotificationManagerCompat.from(this);
+
+            // Build the notification and issues it with notification manager.
+            notificationManager.notify(notificationId, notificationBuilder.build());
         }
     }
+
 
     public void onEvent(String temp) {
         if (temp.startsWith("GameSend")) {
