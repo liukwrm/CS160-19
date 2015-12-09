@@ -18,6 +18,7 @@ import com.google.gson.reflect.TypeToken;
 import org.json.JSONArray;
 import org.json.JSONException;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -114,6 +115,10 @@ public class HomeActivity extends AppCompatActivity {
 
         sendData();
 
+        Gson gson = new Gson();
+        Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
+        String json = gson.toJson(listOfGames, listOfObject);
+        EventBus.getDefault().post("WearUpdate" + json, this);
         EventBus.getDefault().register(this);
     }
 

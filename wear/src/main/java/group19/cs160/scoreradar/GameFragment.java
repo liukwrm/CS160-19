@@ -18,6 +18,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import org.w3c.dom.Text;
+
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 
@@ -35,6 +37,7 @@ import pl.tajchert.buswear.EventBus;
 public class GameFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private View myView;
     private Game g;
     private String id;
     private String home;
@@ -155,7 +158,7 @@ public class GameFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View myView = inflater.inflate(R.layout.fragment_game, container, false);
+        myView = inflater.inflate(R.layout.fragment_game, container, false);
         TextView homeTeam = (TextView) myView.findViewById(R.id.score1);
         TextView awayTeam = (TextView) myView.findViewById(R.id.score2);
         TextView time = (TextView) myView.findViewById(R.id.time);
@@ -168,13 +171,14 @@ public class GameFragment extends Fragment {
         homelogo.setImageResource(GameInformation.getLogo(home));
         awaylogo.setImageResource(GameInformation.getLogo(away));
 
+        myView.setClickable(true);
         myView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_MOVE){
-                    Gson gson = new Gson();
-                    String json = gson.toJson(g, Game.class);
-                    EventBus.getDefault().postLocal("GameSend" + json);
+//                    Gson gson = new Gson();
+//                    String json = gson.toJson(g, Game.class);
+//                    EventBus.getDefault().postLocal("GameSend" + json);
                 }
                 return true;
             }
