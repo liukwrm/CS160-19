@@ -4,6 +4,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Michael on 11/19/2015.
@@ -35,6 +36,17 @@ public class Game implements Parcelable {
     ArrayList<Integer> awayQuaters;
 
     public Game() {
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time) {
@@ -44,6 +56,17 @@ public class Game implements Parcelable {
         this.time = time;
         this.homeScore = 0;
         this.awayScore = 0;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public Game(String id, String home, String away, String time, String homeId, String awayId) {
@@ -110,6 +133,17 @@ public class Game implements Parcelable {
         this.quarter = quarter;
         this.homeQuaters = homeQuaters;
         this.awayQuaters = awayQuaters;
+        homeQuaters = new ArrayList<>();
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+        homeQuaters.add(0);
+
+        awayQuaters = new ArrayList<>();
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
+        awayQuaters.add(0);
     }
 
     public String getId() {

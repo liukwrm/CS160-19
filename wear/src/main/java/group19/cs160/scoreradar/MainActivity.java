@@ -129,6 +129,7 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
             Type listOfTemp = new TypeToken<ArrayList<Game>>() {
             }.getType();
             ArrayList<Game> gameList = gson.fromJson(temp, listOfTemp);
+            Game g = gameList.get(0);
 
 
             int notificationId = 001;
@@ -142,7 +143,7 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
                     new NotificationCompat.Builder(this)
                             .setSmallIcon(R.mipmap.ic_launcher)
                             .setContentTitle("New Score Update From ScoreRadar")
-                            .setContentText("Swipe right to see your games!")
+                            .setContentText(String.format(g.getHome() + ": " + g.getHomeScore() + "  " + g.getAway() + ": " + g.getAwayScore()))
                             .setContentIntent(viewPendingIntent)
                             .addAction(R.mipmap.ic_launcher,
                                     "Opening ScoreRadar", viewPendingIntent);
