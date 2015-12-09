@@ -171,7 +171,7 @@ public class GameFragment extends Fragment {
         myView.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                if(event.getAction() == MotionEvent.ACTION_MOVE){
+                if(event.getAction() == MotionEvent.ACTION_DOWN){
                     Gson gson = new Gson();
                     String json = gson.toJson(g, Game.class);
                     EventBus.getDefault().postLocal("GameSend" + json);

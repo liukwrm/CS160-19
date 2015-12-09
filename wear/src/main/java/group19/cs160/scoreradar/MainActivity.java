@@ -125,7 +125,7 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
 
     public void onEvent(String temp) {
         if (temp.startsWith("GameSend")) {
-            EventBus.getDefault().post(temp, this);
+            EventBus.getDefault().post("0" + temp, this);
         }
     }
 

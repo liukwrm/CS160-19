@@ -152,8 +152,8 @@ public class HomeActivity extends AppCompatActivity {
     }
 
     public void onEvent (String text) {
-        if (text.startsWith("GameSend")) {
-            text = text.substring(8);
+        if (text.startsWith("0GameSend")) {
+            text = text.substring(9);
             Gson gson = new Gson();
             Game game = gson.fromJson(text, Game.class);
             Intent intent = new Intent(this, SpecificGame.class);
