@@ -38,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     private static final String KEY = "zpejx57rrt5xe5n97j5umymz";
     private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
     private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
+    private static final String testKey3 = "d7vhqx9y75hfz3u5dtqsa3wm";
+    private static final String testKey4 = "ejhpzjnxy5j283bz488g4xtp";
     private LinkedList<String> keys = new LinkedList<String>();
     private String curKey;
 
@@ -51,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
         keys.add(KEY);
         keys.add(testKey1);
         keys.add(testKey2);
+        keys.add(testKey3);
+        keys.add(testKey4);
         curKey = keys.getFirst();
 
         getTeamsList();
