@@ -3,6 +3,7 @@ package group19.cs160.scoreradar;
 import android.app.usage.UsageEvents;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -22,6 +23,10 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Collection;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Queue;
 
 import cz.msebera.android.httpclient.Header;
 import pl.tajchert.buswear.EventBus;
@@ -30,7 +35,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
-    static final String KEY = "zpejx57rrt5xe5n97j5umymz";
+    private static final String KEY = "zpejx57rrt5xe5n97j5umymz";
+    private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
+    private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
+    private LinkedList<String> keys = new LinkedList<String>();
+    private String curKey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +47,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.splash_screen);
 
         EventBus.getDefault().register(this);
+
+        keys.add(KEY);
+        keys.add(testKey1);
+        keys.add(testKey2);
+        curKey = keys.getFirst();
 
         getTeamsList();
 
@@ -68,7 +82,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void getTeamsList() {
-        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=" + KEY;
+        String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=" + curKey;
+        keys.addLast(keys.removeFirst());
+        curKey = keys.getFirst();
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -111,15 +127,12 @@ public class MainActivity extends AppCompatActivity {
         int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DAY_OF_MONTH);
 
-        try {
-            Thread.sleep(1500);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
         String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
-                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + KEY;
+                String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + curKey;
         Log.d("main", url);
+
+        keys.addLast(keys.removeFirst());
+        curKey = keys.getFirst();
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -159,14 +172,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void getScores(final ArrayList<Game> games, final int cur, final int total) {
         final Game game = games.get(cur);
-        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=" + KEY;
-
-        try {
-            Thread.sleep(1200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        String url = "http://api.sportradar.us/nba-t3/games/" + game.getId() + "/summary.json?api_key=" + curKey;
         Log.d("main", url);
+
+        keys.addLast(keys.removeFirst());
+        curKey = keys.getFirst();
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
