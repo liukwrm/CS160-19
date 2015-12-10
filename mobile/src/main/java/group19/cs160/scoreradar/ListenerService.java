@@ -43,6 +43,7 @@ public class ListenerService extends Service {
     private int prevDay = 0;
     private HashMap<String, Boolean> games;
 
+    static final String KEY = "6rk3jrh7tqycmx8ajtdjf7gv";
     private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
     private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
     private LinkedList<String> keys = new LinkedList<String>();
