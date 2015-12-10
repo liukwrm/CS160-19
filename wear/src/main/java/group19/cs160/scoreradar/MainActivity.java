@@ -77,6 +77,10 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
 
         EventBus.getDefault().register(this);
 
+        mGamesView = (GridViewPager) findViewById(R.id.pager);
+        GameAdapter adapter = new GameAdapter(this, getFragmentManager(), listOfGames);
+        mGamesView.setAdapter(adapter);
+
         // pull current games, get list. Iterate through and add each game into mGamesLayout
 
     }

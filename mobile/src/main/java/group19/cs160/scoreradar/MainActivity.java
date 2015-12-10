@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH);
+        int day = c.get(Calendar.DAY_OF_MONTH) - 1;
 
         try {
             Thread.sleep(1500);
