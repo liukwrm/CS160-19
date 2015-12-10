@@ -43,6 +43,11 @@ public class ListenerService extends Service {
     private int prevDay = 0;
     private HashMap<String, Boolean> games;
 
+    private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
+    private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
+    private LinkedList<String> keys = new LinkedList<String>();
+    private String curKey;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -69,13 +74,21 @@ public class ListenerService extends Service {
                 Calendar c = Calendar.getInstance();
                 int year = c.get(Calendar.YEAR);
                 int month = c.get(Calendar.MONTH) + 1;
-                int day = c.get(Calendar.DAY_OF_MONTH);
+                int day = c.get(Calendar.DAY_OF_MONTH) - 1;
+
+                keys.add(KEY);
+                keys.add(testKey1);
+                keys.add(testKey2);
+                curKey = keys.getFirst();
+
                 if (day != prevDay) {
                     prevYear = year;
                     prevMonth = month;
                     prevDay = day;
                     String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
-                            String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+                            String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + curKey;
+                    keys.addLast(keys.removeFirst());
+                    curKey = keys.getFirst();
 
                     AsyncHttpClient client = new AsyncHttpClient();
                     client.get(url, new AsyncHttpResponseHandler() {
@@ -137,13 +150,10 @@ public class ListenerService extends Service {
         EventBus.getDefault().postLocal(Collections.frequency(new ArrayList<Boolean>(games.values()), true));
         for (final String id : games.keySet()) {
             if (games.get(id)) {
-                try {
-                    Thread.sleep(1500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
 
-                String url = "http://api.sportradar.us/nba-t3/games/" + id + "/summary.json?api_key=kcrfkb6hwmfqzecw76tgxepp";
+                String url = "http://api.sportradar.us/nba-t3/games/" + id + "/summary.json?api_key="  + curKey;
+                keys.addLast(keys.removeFirst());
+                curKey = keys.getFirst();
 
                 Log.d("main", url);
 
