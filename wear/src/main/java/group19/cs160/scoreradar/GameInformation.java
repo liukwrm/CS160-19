@@ -1,7 +1,7 @@
-package group19.cs160.scoreradar;
+ package group19.cs160.scoreradar;
 
-import java.util.HashMap;
-import java.util.Map;
+        import java.util.HashMap;
+        import java.util.Map;
 
 /**
  * Created by liukwarm on 12/4/15.

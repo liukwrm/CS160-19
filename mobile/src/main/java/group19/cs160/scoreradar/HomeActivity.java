@@ -114,6 +114,12 @@ public class HomeActivity extends AppCompatActivity {
 
         sendData();
 
+        // Sends Notification to watch upon launch
+        Gson gson = new Gson();
+        Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
+        String json = gson.toJson(listOfGames, listOfObject);
+        EventBus.getDefault().post("WearUpdate" + json, this);
+
         EventBus.getDefault().register(this);
     }
 

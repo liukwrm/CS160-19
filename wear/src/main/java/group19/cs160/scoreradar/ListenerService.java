@@ -1,4 +1,5 @@
-package group19.cs160.scoreradar;
+
+        package group19.cs160.scoreradar;
 
         import android.app.Notification;
         import android.app.PendingIntent;
@@ -24,41 +25,43 @@ public class ListenerService extends WearableListenerService {
     @Override
     public void onCreate() {
         super.onCreate();
-        EventBus.getDefault().register(this);
+        // EventBus.getDefault().register(this);
     }
 
-    public void onEvent(String response) {
-        if (response.startsWith("WearUpdate")) {
-            Log.d("in listener-onEvent", "Here in event for notification");
-            response = response.substring(10);
-            Gson gson = new Gson();
-            Type listOfTemp = new TypeToken<ArrayList<Game>>() {
-            }.getType();
-            ArrayList<Game> gameList = gson.fromJson(response, listOfTemp);
-
-
-            int notificationId = 001;
-            // Build intent for notification content
-            Intent viewIntent = new Intent(this, MainActivity.class);
-            //viewIntent.putExtra("gameList", response);
-            PendingIntent viewPendingIntent =
-                    PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            NotificationCompat.Builder notificationBuilder =
-                    new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
-                            .setContentTitle("New Score Update From ScoreRadar")
-                            .setContentText("Click here to see your games!")
-                            .setDefaults(Notification.DEFAULT_ALL)
-                            .extend(new NotificationCompat.WearableExtender().setDisplayIntent(viewPendingIntent));
-
-            // Get an instance of the NotificationManager service
-            NotificationManagerCompat notificationManager =
-                    NotificationManagerCompat.from(this);
-
-            // Build the notification and issues it with notification manager.
-            notificationManager.notify(notificationId, notificationBuilder.build());
-        }
-    }
+//    public void onEvent(String response) {
+//        if (response.startsWith("WearUpdate")) {
+//            Log.d("in listener-onEvent", "Here in event for notification");
+//            response = response.substring(10);
+//            Gson gson = new Gson();
+//            Type listOfTemp = new TypeToken<ArrayList<Game>>() {
+//            }.getType();
+//            ArrayList<Game> gameList = gson.fromJson(response, listOfTemp);
+//
+//
+//            int notificationId = 001;
+//            // Build intent for notification content
+//            Intent viewIntent = new Intent(this, MainActivity.class);
+//            //viewIntent.putExtra("gameList", response);
+//            PendingIntent viewPendingIntent =
+//                    PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+//
+//            NotificationCompat.Builder notificationBuilder =
+//                    new NotificationCompat.Builder(this)
+//                            .setSmallIcon(R.mipmap.ic_launcher)
+//                            .setContentTitle("New Score Update From ScoreRadar")
+//                            .setContentText("Click here to see your games!")
+//                            .setContentIntent(viewPendingIntent)
+//                            .addAction(R.mipmap.ic_launcher,
+//                                    "Opening ScoreRadar", viewPendingIntent);
+//                            //.extend(new NotificationCompat.WearableExtender().setDisplayIntent(viewPendingIntent));
+//
+//            // Get an instance of the NotificationManager service
+//            NotificationManagerCompat notificationManager =
+//                    NotificationManagerCompat.from(this);
+//
+//            // Build the notification and issues it with notification manager.
+//            notificationManager.notify(notificationId, notificationBuilder.build());
+//        }
+//    }
 
 }

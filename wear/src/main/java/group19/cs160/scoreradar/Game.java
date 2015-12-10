@@ -1,9 +1,9 @@
-package group19.cs160.scoreradar;
+        package group19.cs160.scoreradar;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+        import android.os.Parcel;
+        import android.os.Parcelable;
 
-import java.util.ArrayList;
+        import java.util.ArrayList;
 
 /**
  * Created by Michael on 11/19/2015.
