@@ -117,7 +117,8 @@ public class HomeActivity extends AppCompatActivity {
         // Sends Notification to watch upon launch
         Gson gson = new Gson();
         Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
-        String json = gson.toJson(listOfGames, listOfObject);
+
+        String json = gson.toJson(myGames, listOfObject);
         EventBus.getDefault().post("WearUpdate" + json, this);
 
         EventBus.getDefault().register(this);
@@ -137,7 +138,14 @@ public class HomeActivity extends AppCompatActivity {
     public void sendData() {
         Gson gson = new Gson();
         Type listOfTemp = new TypeToken<ArrayList<Game>>(){}.getType();
-        String json = gson.toJson(listOfGames, listOfTemp);
+        ArrayList<Game> myGames = new ArrayList<>();
+        //FILTERING
+        for (Game g: listOfGames) {
+            if (followingGames.contains(g.getId()) || followingTeams.contains(g.getAwayId()) || followingTeams.contains(g.getHomeId())) {
+                myGames.add(g);
+            }
+        }
+        String json = gson.toJson(myGames, listOfTemp);
         EventBus.getDefault().post("WearActivity" + json, this);
     }
 
@@ -152,7 +160,14 @@ public class HomeActivity extends AppCompatActivity {
         if (countGames == 0) {
             Gson gson = new Gson();
             Type listOfObject = new TypeToken<ArrayList<Game>>(){}.getType();
-            String json = gson.toJson(listOfGames, listOfObject);
+            ArrayList<Game> myGames = new ArrayList<>();
+            //FILTERING
+            for (Game g: listOfGames) {
+                if (followingGames.contains(g.getId()) || followingTeams.contains(g.getAwayId()) || followingTeams.contains(g.getHomeId())) {
+                    myGames.add(g);
+                }
+            }
+            String json = gson.toJson(myGames, listOfObject);
             EventBus.getDefault().post("WearUpdate" + json, this);
         }
     }
