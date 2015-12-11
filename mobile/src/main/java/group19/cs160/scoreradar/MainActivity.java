@@ -83,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void getTeamsList() {
         String url = "http://api.sportradar.us/nba-t3/seasontd/2015/reg/standings.json?api_key=" + KEY;
+        keys.addLast(keys.removeFirst());
+        curKey = keys.getFirst();
 
         AsyncHttpClient client = new AsyncHttpClient();
         client.get(url, new AsyncHttpResponseHandler() {
@@ -124,13 +126,6 @@ public class MainActivity extends AppCompatActivity {
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
         int day = c.get(Calendar.DAY_OF_MONTH);
-
-        keys.add(KEY);
-        keys.add(testKey1);
-        keys.add(testKey2);
-        keys.add(testKey3);
-
-        curKey = keys.getFirst();
 
         String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
                 String.valueOf(month) + "/" + String.valueOf(day) + "/schedule.json?api_key=" + curKey;

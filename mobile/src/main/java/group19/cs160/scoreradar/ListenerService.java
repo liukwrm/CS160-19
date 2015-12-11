@@ -44,9 +44,10 @@ public class ListenerService extends Service {
     private int prevDay = 0;
     private HashMap<String, Boolean> games;
 
-    static final String KEY = "6rk3jrh7tqycmx8ajtdjf7gv";
+    static final String KEY = "ufnk6c7h9wagumqkvthkk7sv";
     private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
-    private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
+    private static final String testKey2 = "9pq38pmyh4e4qmdxmfcmr9fv";
+    private static final String testKey3 = "qevguazydtesn5zawx3gn6pp";
     private LinkedList<String> keys = new LinkedList<String>();
     private String curKey;
 
@@ -81,6 +82,8 @@ public class ListenerService extends Service {
                 keys.add(KEY);
                 keys.add(testKey1);
                 keys.add(testKey2);
+                keys.add(testKey3);
+
                 curKey = keys.getFirst();
 
                 if (day != prevDay) {
