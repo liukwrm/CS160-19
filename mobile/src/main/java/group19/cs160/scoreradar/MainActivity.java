@@ -31,9 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
-    static final String KEY = "6rk3jrh7tqycmx8ajtdjf7gv";
+    static final String KEY = "ufnk6c7h9wagumqkvthkk7sv";
     private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
-    private static final String testKey2 = "wuvhhw5at85jukehsv94vyuv";
+    private static final String testKey2 = "9pq38pmyh4e4qmdxmfcmr9fv";
+    private static final String testKey3 = "qevguazydtesn5zawx3gn6pp";
+
     private LinkedList<String> keys = new LinkedList<String>();
     private String curKey;
 
@@ -47,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
         keys.add(KEY);
         keys.add(testKey1);
         keys.add(testKey2);
+        keys.add(testKey3);
+
         curKey = keys.getFirst();
 
         getTeamsList();
@@ -119,11 +123,13 @@ public class MainActivity extends AppCompatActivity {
         Calendar c = Calendar.getInstance();
         int year = c.get(Calendar.YEAR);
         int month = c.get(Calendar.MONTH) + 1;
-        int day = c.get(Calendar.DAY_OF_MONTH) - 1;
+        int day = c.get(Calendar.DAY_OF_MONTH);
 
         keys.add(KEY);
         keys.add(testKey1);
         keys.add(testKey2);
+        keys.add(testKey3);
+
         curKey = keys.getFirst();
 
         String url = "http://api.sportradar.us/nba-t3/games/" + String.valueOf(year) + "/" +
