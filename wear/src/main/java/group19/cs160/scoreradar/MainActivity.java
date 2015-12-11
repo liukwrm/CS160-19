@@ -9,6 +9,8 @@ package group19.cs160.scoreradar;
         import android.content.Context;
         import android.content.Intent;
         import android.content.IntentFilter;
+        import android.graphics.Bitmap;
+        import android.graphics.BitmapFactory;
         import android.net.Uri;
         import android.os.Bundle;
         import android.support.v4.content.LocalBroadcastManager;
@@ -139,16 +141,17 @@ public class MainActivity extends WearableActivity implements GameFragment.OnFra
             viewIntent.putParcelableArrayListExtra("gamesList", gameList);
             PendingIntent viewPendingIntent =
                     PendingIntent.getActivity(this, 0, viewIntent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-
+            Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.watch_basketball_bg_small);
             NotificationCompat.Builder notificationBuilder =
                     new NotificationCompat.Builder(this)
-                            .setSmallIcon(R.mipmap.ic_launcher)
+                            .setSmallIcon(R.drawable.sr_logo)
+                            .setLargeIcon(largeIcon)
                             .setAutoCancel(true)
                             .setContentTitle("New Score Update From ScoreRadar")
                             .setContentText(String.format(g.getHome() + ": " + g.getHomeScore() + "  " + g.getAway() + ": " + g.getAwayScore()))
                             .setContentIntent(viewPendingIntent)
                             .addAction(R.mipmap.ic_launcher,
-                                    "Opening ScoreRadar", viewPendingIntent);
+                                    "Open ScoreRadar", viewPendingIntent);
 
             // Get an instance of the NotificationManager service
             NotificationManagerCompat notificationManager =
