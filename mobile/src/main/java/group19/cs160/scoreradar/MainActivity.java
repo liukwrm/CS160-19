@@ -31,10 +31,11 @@ public class MainActivity extends AppCompatActivity {
 
     ArrayList<Game> listOfGames = new ArrayList<Game>();
     ArrayList<TeamInformation> listOfTeams = new ArrayList<TeamInformation>();
-    static final String KEY = "ufnk6c7h9wagumqkvthkk7sv";
+    static final String KEY = "7q6jxhfw76r3bb9k3ywvb7jm";
     private static final String testKey1 = "bwewwvxt38nk63z7dmztjcfq";
     private static final String testKey2 = "9pq38pmyh4e4qmdxmfcmr9fv";
     private static final String testKey3 = "qevguazydtesn5zawx3gn6pp";
+    private static final String testKey4 = "dzvf4ns74hgdrk6zzng69kj6";
 
     private LinkedList<String> keys = new LinkedList<String>();
     private String curKey;
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity {
         keys.add(testKey1);
         keys.add(testKey2);
         keys.add(testKey3);
+        keys.add(testKey4);
 
         curKey = keys.getFirst();
 
